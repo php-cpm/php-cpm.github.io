@@ -1,0 +1,39 @@
+---
+layout: post
+status: publish
+published: true
+title: 用七牛CDN给博客加速
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 798
+wordpress_url: http://oadoc360.com/?p=798
+date: '2013-11-13 22:47:12 +0800'
+date_gmt: '2013-11-13 14:47:12 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>CDN可以分担网站的流量，同时国内的CDN也可以有效加速像我这个国外VPS网站。</p>
+<p>在网上查询一番后我选定了免费的七牛，貌似上半年参加一个沙龙的时候他们的人也去讲了。</p>
+<p>七牛镜像存储免费用户额度:</p>
+<p>存储空间 10GB，每月下载流量 10GB，每月 PUT/DELETE 10万次请求，每月 GET 100万次请求。</p>
+<p>&nbsp;</p>
+<p>七牛镜像存储 WordPress 插件，十分方便，在后台简单设置即可。</p>
+<p>&nbsp;</p>
+<p><a href="http://blog.wpjam.com/2013/08/31/wpjam-qiniutek-0-4/">http://blog.wpjam.com/2013/08/31/wpjam-qiniutek-0-4/</a></p>
+<p>&nbsp;</p>
+<p>没什么可讲的，加速了，提速了，就是这样。</p>
+<p>&nbsp;</p>
+<p>用chrome监控网络，禁用了cache。</p>
+<p>先把CDN加速插件打开，跑了一个加速后的</p>
+<p><a href="http://oadoc360.com/wp-content/uploads/2013/11/after.jpg"><img class="aligncenter size-medium wp-image-801" alt="after" src="http://oadoc360.com/wp-content/uploads/2013/11/after-300x14.jpg" width="300" height="14" /></a></p>
+<p>再把插件关了，跑了一个未加速的</p>
+<p><a style="color: #0f80df; text-decoration: underline;" href="http://oadoc360.com/wp-content/uploads/2013/11/before.jpg"><img class="aligncenter size-medium wp-image-802" alt="before" src="http://oadoc360.com/wp-content/uploads/2013/11/before-300x17.jpg" width="300" height="17" /></a></p>
+<p>对比很明显，速度提升很显著。</p>
+<p>DOM加载速度是原来0.37倍，页面完整加载速度是原来近的1/3，访问能感觉明显的速度提升。</p>

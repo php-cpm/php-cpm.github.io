@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: 绝对的无师自通，Windows Phone 8 Panorama控件 title 字体大小 样式的设置
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 792
+wordpress_url: http://oadoc360.com/?p=792
+date: '2013-10-03 18:44:07 +0800'
+date_gmt: '2013-10-03 10:44:07 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>网上搜到的都是wp 7 &nbsp;Panorama控件 title 字体大小 样式的设置</p>
+<p><a href="http://www.cnblogs.com/beyoung/archive/2012/02/15/2353049.html">http://www.cnblogs.com/beyoung/archive/2012/02/15/2353049.html</a></p>
+<p><controls:Panorama&nbsp;><br />
+<controls:Panorama.Title><br />
+<TextBlock&nbsp;Text="我的应用程序"&nbsp;FontSize="50"&nbsp;Margin="0,80,0,0"&nbsp;Height="60"></TextBlock><br />
+</controls:Panorama.Title></p>
+<p>其实就是涉及到wp7、wp8的xaml的名字变了，我以前没接触过wp7开发，会比较蒙。</p>
+<p>不过我爱大胆假设，小心求证</p>
+<p>默认是长这个样</p>
+<phone:Panorama title="xxxx">
+<p>我就防着例子试写一下，成功了</p>
+<phone:Panorama >
+<phone:Panorama.Title>
+<TextBlock Text="通达Office Anywhere 2013演示版" FontSize="80" Margin="0,50,0,0"/>
+</phone:Panorama.Title>
+<p>于是PanoramaItem 每个分页的标题 Header&nbsp;我也会改了，掉渣天</p>
+<phone:PanoramaItem Orientation="Horizontal">
+<phone:PanoramaItem.Header>
+<TextBlock Text="个人事务" FontSize="50" Margin="0,50,0,0"/>
+</phone:PanoramaItem.Header>

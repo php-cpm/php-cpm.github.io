@@ -1,0 +1,35 @@
+---
+layout: post
+status: publish
+published: true
+title: Laravel依赖注入深入浅出
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1092
+wordpress_url: http://oadoc360.com/?p=1092
+date: '2018-03-28 17:46:31 +0800'
+date_gmt: '2018-03-28 09:46:31 +0800'
+category: Laravel
+categories:
+- 未分类
+tags: [Laravel, IoC]
+comments: []
+---
+<p>我们在开始用Laravel时会大量用到依赖注入，由于框架做了很多工作，所以可以方便的依赖绑定和自动注入。<br />
+具体的写代码时参考文档的&ldquo;服务容器&rdquo;实例代码就能快速上手。但是依赖注入到底是什么？</p>
+<p>依赖注入是一种设计模式。<br />
+《设计模式：可复用面向对象软件的基础》（Design Patterns: Elements of Reusable Object-Oriented Software）是软件工程领域有关软件设计的一本书，提出和总结了对于一些常见软件设计问题的标准解决方案，称为软件设计模式。该书作者为：埃里希&middot;伽玛（Erich Gamma）, Richard Helm , Ralph Johnson，John Vlissides，后以&ldquo;四人帮&rdquo;（Gang of Four，GoF）著称。<br />
+设计模式一般指本书中提出的3大类（创建模式、行为模式、组合模式）共23种经典的可以解决常见软件设计问题的可复用设计方案。https://www.zhihu.com/question/19558521<br />
+在2004年，Martin Fowler提出了&ldquo;哪些方面的控制被反转了？&rdquo;这个问题。<br />
+另外 SOLID（单一功能、开闭原则、里氏替换、接口隔离以及依赖倒置）是由罗伯特&middot;C&middot;马丁在2009年引入的术语，指代了面向对象编程和面向对象设计的五个基本原则。</p>
+<p>依赖倒置原则规定：<br />
+高层次的模块不应该依赖于低层次的模块，两者都应该依赖于抽象接口。<br />
+抽象接口不应该依赖于具体实现。而具体实现则应该依赖于抽象接口。</p>
+<p>控制反转（Inversion of Control，缩写为IoC），是面向对象编程中的一种设计原则，可以用来减低计算机代码之间的耦合度。其中最常见的方式叫做依赖注入（Dependency Injection，简称DI），还有一种方式叫&ldquo;依赖查找&rdquo;（Dependency Lookup）。通过控制反转，对象在被创建的时候，由一个调控系统内所有对象的外界实体，将其所依赖的对象的引用传递给它。也可以说，依赖被注入到对象中。</p>
+<p>为了实现自动注入，在PHP中可以使用反射实现一个IoC容器，Laravel就是这么做的。</p>
+<p>https://segmentfault.com/a/1190000002424023</p>

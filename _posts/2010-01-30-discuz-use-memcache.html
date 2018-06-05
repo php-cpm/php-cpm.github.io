@@ -1,0 +1,131 @@
+---
+layout: post
+status: publish
+published: true
+title: Discuz!的Memcache缓存实现【转】
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 275
+wordpress_url: http://zouyi.ixiezi.com/?p=275
+date: '2010-01-30 23:25:42 +0800'
+date_gmt: '2010-01-30 15:25:42 +0800'
+categories:
+- WEB技术
+tags: []
+comments:
+- id: 15
+  author: Levitra
+  author_email: Mills84@hotmail.com
+  author_url: http://www.1st-levitra-pharmacy.com
+  date: '2012-01-14 01:53:20 +0800'
+  date_gmt: '2012-01-13 17:53:20 +0800'
+  content: Hello man! I quite agree with your thoughts.
+---
+<h2><a title="Discuz!的Memcache缓存实现" href="http://www.ccvita.com/261.html">Discuz!的Memcache缓存实现</a></h2>
+<p>原文地址：http://www.ccvita.com/261.html</p>
+<div>
+<p><strong>前言</strong>：<br />
+在PHP+MySQL架构的站点中，本文重点从MySQL的角度去分析如何使Discuz!论坛（或者类似的PHP+MySQL架构的程序）应对大访问 量。同时给出一些使用Memcache去减轻MySQL压力的建议。其中很多数据是个人测试的结果，如有不同意见，敬请留言告之。另外由于个人思维的问 题，行文比较跳跃，特此声明！</p>
+<p><strong>系统分析</strong>：<br />
+单纯的从MySQL的角度出发，单台MySQL的数据库负载到每天上亿次的操作（每秒大概1100次MySQL操作，然后乘以86400）应该不是非常困 难的事情。按照这个数据也就是说一个单MySQL服务器的论坛来说可以跑到2千万PV是不成问题的，我相信国内绝大部分的论坛都不可能做到每天2千万的 PV，但实际情况并不是如此。当论坛PV超过百万的时候一台WEB早已经不堪重负了。</p>
+<p>就我手头的一些数据显示，目前的Discuz!论坛的基本服务器架构是前面Squid顶着，后面才是一台DB在撑着。这种架构中，web服务器压力 增大可以通过并行增加服务器解决，而MySQL压力却无处释放，在不考虑MySQL官方服务的情况下，我们通过合理的利用Memcache是可以达到减轻 MySQL服务器负载的。</p>
+<p>可能会有朋友说我们可以对数据表进行分表（<em>注：此处分表是指通过PHP程序去分表，比如pw，dv的分表</em>）处理，但是当前的情况 是一台DB服务器已经不能支撑当前的数据处理了，通过PHP对MySQL进行的分表依然不能减轻MySQL的负载。（<em>注：本段文字针对已经成型的 系统，如果是独立开发的系统在架构前期就进行数据的同步分区还是不错的。</em>）</p>
+<p>还可能有朋友会说利用MySQL的主从构架，如果你提出这个问题，我就很明确的告诉你，回去看看手册吧。在Mysql Master/Slave  模式中，Slave主要是来备份数据的，只有当Master出现故障时，Slave才会接过Master的服务，对外部请求进行处理，直到Master恢 复正常。就是说：<em><strong>在Master/Slave中，要么是Master在服务，要么是Slave在服务，不会Master /Slave同时提供服务。</strong></em>使用MySQL主从依然不能有效的降低MySQL的负载。</p>
+<p>或许你又会问我为什么不使用MySQL集群（MySQL  Cluster），那可是白花花的银子啊，同等金钱的付出下，获得最大的收益才是王道。PS:说句题外话，MySQL手册中将MySQL集群解释为 MySQL簇，不习惯。</p>
+<p>其实在MySQL5.1中的MySQL分区（MySQL  Partition）是个很好的东西，它允许根据可以设置为任意大小的规则，跨文件系统分配单个表的多个部分。实际上，表的不同部分在不同的位置被存储为 单独的表。我认为这个才是当前情况下，最积极有效的降低MySQL负载的<strong>解决方法之一</strong>。但是遗憾的是，这种MySQL 分区的方式我个人没有使用过的经历，也不见有相当充分的案例表明它是稳定的或者不稳定的。所以我还在徘徊中。如果你知道，请麻烦告之！有朋友说腾讯是在用 MySQL分区，但是遗憾的是我没有得到确切的数据。</p>
+<p>好了分析总结了这么多种降低MySQL负载的方式之后，在用户环境需求等特定条件下，我得出结论在当前情况下，缓解Discuz!论坛的MySQL 负载比较有效的方法就是使用Memcache！</p>
+<p><span> </span></p>
+<p><strong>使用Memcache的理由</strong>：<br />
+1.Web  Server（Lighttpd、Nginx据说都比Apache效率高好多，大家可以试用下）对CPU要求高，对内存要求低；而Memcached  Server是对CPU要求低，对内存要求高，所以可以搭配使用。在对前端的Web Server上安装Memcached Server是可行的。<br />
+2.金钱金钱金钱，最少的付出，获得最大的收益。<br />
+3.简单简单简单，对于一个架构合理的系统来说，添加Memcache的支持可能只是一个批量处理文件的过程</p>
+<p><strong>Discuz!使用Memcache</strong><br />
+1.在config.inc.php中增加</p>
+<div>
+<div>$memcachehost =  '127.0.0.1';<br />
+$memcacheport = 11211;<br />
+$memcachelife = 60;</div>
+</div>
+<p>2.在include/common.inc.php中</p>
+<div>
+<div>$mem = new Memcache;<br />
+$mem->connect($memcachehost,  $memcacheport);</div>
+</div>
+<p>3.修改include/db_mysql.class.php中的fetch_array、query这两个方法，并添加query_mysql 方法，代码如下：</p>
+<div>
+<div>function  fetch_array($query, $result_type = MYSQL_ASSOC) {<br />
+return  is_resource($query) ? mysql_fetch_array($query, $result_type) :  $query[0];<br />
+}</p>
+<p>function query_memcache($sql, $type = '') {<br />
+global  $mem,$memcachelife;</p>
+<p>$key = md5($sql);<br />
+if(!($query =  $mem->get($key))) {<br />
+$query = $this->query($sql, $type);<br />
+while($item&nbsp;  = $this->fetch_array($query)) {<br />
+$res[] = $item;<br />
+}<br />
+$query =  $res;<br />
+$mem->set($key, $query , 0, $memcachelife);<br />
+}<br />
+return  $query;<br />
+}</p>
+<p>function query($sql, $type = '') {<br />
+global $debug,  $discuz_starttime, $sqldebug, $sqlspenttimes;</p>
+<p>$func = $type ==  'UNBUFFERED' &amp;&amp; @function_exists('mysql_unbuffered_query') ?<br />
+'mysql_unbuffered_query'  : 'mysql_query';<br />
+if(!($query = $func($sql, $this->link))  &amp;&amp; $type != 'SILENT') {<br />
+$this->halt('MySQL Query Error',  $sql);<br />
+}</p>
+<p>if(substr($sql, 0, 6) == 'SELECT') {<br />
+echo  '<font color="red">Cache SQL</font>:<font  color="green">'.$sql.'</font></p>
+<p>';<br />
+}  else {<br />
+echo '<font color="red">Flash SQL</font>:<font  color="green">'.$sql.'</font></p>
+<p>';<br />
+}</p>
+<p>$this->querynum++;<br />
+return  $query;<br />
+}</p></div>
+</div>
+<p>4.将需要使用Memcache缓存的SQL查询的代码由</p>
+<div>
+<div>$db->query(</div>
+</div>
+<p>修改为</p>
+<div>
+<div>$db->query_memcache(</div>
+</div>
+<p>注意并将</p>
+<div>
+<div>while($post =  $db->fetch_array($query)) {</div>
+</div>
+<p>修改为</p>
+<div>
+<div>foreach($query as $post) {</div>
+</div>
+<p>没有while的$db->fetch_array可以不用修改。</p>
+<p>下面代码有用得着的就拿去：</p>
+<div>
+<div>preg_replace("/while([$](w+)s*=s*[$]db->fetch_array([$]query))/is",  "foreach($query as $1)", $file);</div>
+</div>
+<p>回头放出个小工具批量替换下就可以了。<br />
+在EditPlus中可以这样替换：while([$](.*) =  [$]db->fetch_array([$]query))替换为foreach($query as $1)<br />
+5.完成了，测试吧！~</p>
+<p><strong>参考资料</strong>：<br />
+对Memcached有疑问的朋友可以参考下列文章：<br />
+<a href="http://www.ccvita.com/257.html">Linux下的Memcache安装</a>：http://www.ccvita.com/257.html<br />
+<a href="http://www.ccvita.com/258.html">Windows下的Memcache安装</a>：http://www.ccvita.com/258.html<br />
+<a href="http://www.ccvita.com/259.html">Memcache基础教程</a>：http://www.ccvita.com/259.html<br />
+<a href="http://www.ccvita.com/261.html">Discuz!的Memcache缓存实现</a>：http://www.ccvita.com/261.html<br />
+<a href="http://www.ccvita.com/306.html">Memcache协议中文版</a>：http://www.ccvita.com/306.html<br />
+<a href="http://www.ccvita.com/395.html">Memcache分布式部署方案</a>：http://www.ccvita.com/395.html</p>
+<p><strong>后记</strong><br />
+写完之后突然发现天已经要亮了，闷骚了一个晚上。个人的一些总结，欢迎留言探讨！</p>
+<p>Tag: <span><a rel="tag" href="http://www.ccvita.com/tag/discuz">Discuz!</a>, <a rel="tag" href="http://www.ccvita.com/tag/memcache">Memcache</a></span></p>
+<p><span>kimi</span> at <span>2007-12-17 05:39:29</span> in <span><a title="查看 Memcache 的全部文章" rel="category tag" href="http://www.ccvita.com/category/memcache">Memcache</a></span></p>
+<p><span style="color: #666666;font-size: 12px">版权声明：原创作品，欢迎转载，转载时请务必以<strong>超链接</strong>形式标明文章原始地址、作者信息和本声明。 </span></div>

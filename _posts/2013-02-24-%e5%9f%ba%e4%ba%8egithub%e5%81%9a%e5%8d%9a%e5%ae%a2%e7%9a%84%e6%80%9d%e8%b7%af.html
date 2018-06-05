@@ -1,0 +1,42 @@
+---
+layout: post
+status: publish
+published: true
+title: 基于github做博客的思路
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 637
+wordpress_url: http://oadoc360.com/blog/?p=637
+date: '2013-02-24 19:37:40 +0800'
+date_gmt: '2013-02-24 11:37:40 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>github.com提供静态页面功能，且访问速度很理想</p>
+<p>github.com针对代码仓库提供问题反馈系统</p>
+<p>方法一：在github上自己的站点首页放上一个跳转连接，到问题反馈系统，你的博文以问题反馈的形式发布，评论者直接跟帖回复。</p>
+<p>此方法是我偶然看到一哥们这么干的。</p>
+<p>&nbsp;</p>
+<p>方法二：（我的原创，挺折腾，但是绝对省流量，且样式随心所欲）</p>
+<p>自己的vps的blog生成静态文件，将静态文件发布到github上。</p>
+<p>（一般cms都爱这么干，每次更新只涉及静态文件和首页）</p>
+<p>每次写文章的操作是在vps上进行的。</p>
+<p>发布时是同步到github上的。</p>
+<p>评论可以做在vps或者集成第三方评论系统，刚查了一下，国内有多说、友言。</p>
+<p>然后没有了。</p>
+<p>流量构成：vps：后台操作管理+github同步时产生的流量</p>
+<p>github：文章的访问流量等等</p>
+<p>第三方评论系统：评论+评论管理流量</p>
+<p>&nbsp;</p>
+<p>迁移？</p>
+<p>生成的静态页面放到github 上以后dns cname过去即可。</p>
+<p>&nbsp;</p>
+<p>更多参考</p>
+<p>http://www.ruanyifeng.com/blog/2012/08/blogging_with_jekyll.html</p>

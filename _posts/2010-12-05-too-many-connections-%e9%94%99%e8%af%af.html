@@ -1,0 +1,28 @@
+---
+layout: post
+status: publish
+published: true
+title: mysql调优
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 499
+wordpress_url: http://zouyi.rayyn.net/?p=499
+date: '2010-12-05 14:58:37 +0800'
+date_gmt: '2010-12-05 06:58:37 +0800'
+categories:
+- WEB技术
+tags: []
+comments: []
+---
+<p>mysql最近老是出问题，linux服务器cpu居高不下，多次Google未果，今天终go出些有用的东西了<br />
+Too many connections 错误。<br />
+小结一下，要保证你的系统不会出现Too many connections 错误，需要注意两点:<br />
+1.保证你的apache的最大进程数不超过mysql的最大连接数；<br />
+2.不要在程序里面用过多mysql_pconnect连接到同一个数据库服务器(一个就够了).这需要好的编码习惯和规范.特别是不断的给系统增加</p>
+<p>http://www.yeeach.com/2008/02/09/mysql-%E6%95%B0%E6%8D%AE%E5%BA%93cpu-%E5%8D%A0%E7%94%A8999%E9%97%AE%E9%A2%98%E8%B0%83%E4%BC%98%E6%9C%AD%E8%AE%B0/</p>
+<p>http://blog.s135.com/post/349/</p>

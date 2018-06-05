@@ -1,0 +1,30 @@
+---
+layout: post
+status: publish
+published: true
+title: Session这个玩意
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 486
+wordpress_url: http://zouyi.rayyn.net/?p=486
+date: '2010-11-15 13:59:45 +0800'
+date_gmt: '2010-11-15 05:59:45 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>原来</p>
+<blockquote><p>Session 是以文本文件形式存储在服务器端的，不怕客户端修改 Session 内容。实际上在服务器端的 Session 文件，PHP 自动修改 Session 文件的权限，只保留了系统读和写权限，而且不能通过 ftp 修改，所以安全得多。</p></blockquote>
+<p>然而默认存储的目录由php.ini控制，这对于虚拟主机的网站来说是不安全的，因此可以考虑开发时在网站配置文件中使用</p>
+<p>ini_set('session.save_path',"你想要存放的路径");</p>
+<p>最近用thinkphp框架</p>
+<p>使用如上方法不管用，看来是他自带的session类直接读php配置文件去了~</p>
+<blockquote><p>执行完程序后，我们可以到系统临时文件夹找到 Session 文件，一般文件名形如：sess_4c83638b3b0dbf65583181c2f89168ec，后面是 32 位编码后的随机字符串。用编辑器打开它，看一下它的内容：</p>
+<p><code>user|N;</code>一般该内容是这样的结构：</p>
+<p><code>变量名|类型:长度:值;</code> 并用分号隔开每个变量。有些是可以省略的，比如长度和类型。</p></blockquote>

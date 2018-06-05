@@ -1,0 +1,31 @@
+---
+layout: post
+status: publish
+published: true
+title: 'PHPUnit: Exception: Serialization of "Closure" is not allowed'
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1090
+wordpress_url: http://oadoc360.com/?p=1090
+date: '2018-01-08 16:21:03 +0800'
+date_gmt: '2018-01-08 08:21:03 +0800'
+category: PHPUnit
+categories:
+- 未分类
+tags: [PHPUnit]
+comments: []
+---
+<p>用phpstorm测试laravel程序的时候发现单独执行phpunit命令可以把所有测试用例都跑一遍，而单独指定某个测试文件，某个测试方法则报错。百思不得其解。今天终于下决心查一下。</p>
+<p>基本上是因为你的全局变量中, 包含了闭包. PHPUnit 在执行过程中会对全局变量进行序列化备份, 而PHP 自身的机制限制了序列化对闭包(Closure)的操作. 因此只要禁用序列化全局变量好了.</p>
+<p>执行的时候加上<code>phpunit --no-globals-backup xxx</code>参数</p>
+<p>或者在phpunit.xml配置文件里加上<code>backupGlobals="false"</code></p>
+<p>引用：<br />
+https://xwsoul.com/posts/1137<br />
+https://github.com/sebastianbergmann/phpunit/issues/451<br />
+https://github.com/kenjis/ci-phpunit-test/issues/90<br />
+https://stackoverflow.com/questions/33477923/phpunit-tests-from-code-gives-exception-serialization-of-closure-is-not-allow</p>

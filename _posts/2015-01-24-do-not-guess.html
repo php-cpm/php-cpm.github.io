@@ -1,0 +1,141 @@
+---
+layout: post
+status: publish
+published: true
+title: 半吊子的危险性 -- 误以为PHP5.3以后取消了$GLOBALS超全局变量
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 909
+wordpress_url: http://oadoc360.com/?p=909
+date: '2015-01-24 10:03:40 +0800'
+date_gmt: '2015-01-24 02:03:40 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>今年之前一直在使用php 5.2做开发，很早前就知道5.2升级5.3是个坎，网上还有很多程序升级到5.3有困难。但作为一个半吊子，居然从来没好好看过升级说明，只知道global啥玩意的不支持了，并想当然的理解成了5.3之后再没有全局变量可用了。</p>
+<p>http://php.net/manual/zh/migration53.php</p>
+<p>今天下点功夫逐一点一下各个升级特性，放到文末供参考</p>
+<p>PHP 5.3.x 的大多数改进对现有代码没有影响。需要注意的是有一些不兼容和新功能，在生产环境中切换 PHP 版本需要先行测试代码。</p>
+<p>下面说一下我半吊子想当然以为不能用的功能。</p>
+<p>register_globals取消了这个开关<br />
+不是说取消了部分global</p>
+<p>这个开关开的时候$_POST\$_GET\$xxx、cookie、session数组里的值会注册到对应的变量去<br />
+另外取消了一些HTTP_VAR_POST这样的变量<br />
+全用简写$_POST这种表示<br />
+global $variable;   以及$GLOBALS是在任何版本的php中都可用的</p>
+<p>以下是测试程序。<br />
+<code><?php<br />
+$a = 'hehe';<br />
+function echohh(){<br />
+    echo $GLOBALS['a'];<br />
+}<br />
+echohh();exit;</p>
+<p>?></code><br />
+<code><?php<br />
+$a = 'hehe';<br />
+function echohh(){<br />
+    global $a;<br />
+    echo $a;<br />
+}<br />
+echohh();exit;</p>
+<p>?></code></p>
+<p>实际环境测试运行发现从5.2、5.3、5.4、5.5、5.6各个版本php表现看都是一致的，没有问题。</p>
+<p>另外之前想当然的因素之一也是这个文章闹的。<br />
+http://www.hack1990.com/cat_2/1273.html</p>
+<p>再回顾以下经典的php自动全局变量漏洞<br />
+才明白开启register_globals之后才会有这个问题，php5.4及以后这个开关消失，就再不会有这个问题了</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+<p>http://www.haidx.com/win-apache-php5-3-x-fastcgi-zend-guard-loader.html<br />
+http://www.php.net/manual/zh/appendices.php</p>
+<p>【不向下兼容的变化】<br />
+给函数传递了不兼容的参数时将返回 NULL，之前是返回FALSE，但有一些例外，比如函数 get_class() 在出现错误时将会返回 FALSE。<br />
+realpath() 现在是完全与平台无关的. 结果是非法的相对路径比如 __FILE__ . "/../x" 将不会工作.<br />
+数组函数 natsort(), natcasesort(), usort(), uasort(), uksort(), array_flip(), 和 array_unique() 将不再接受对象作为参数, 在将这些函数应用于对象时, 请首先将对象转换为数组.<br />
+函数内 include 或者 require 一个文件时，文件内 将不能使用 func_get_arg(), func_get_args() 和 func_num_args() 函数。<br />
+最小的 Windows 支持版本是 Windows XP SP3; Windows 98, ME, 2000 和 NT4 将不再被支持.</p>
+<p>【被弃用的 INI 指令】<br />
+define_syslog_variables<br />
+register_globals<br />
+register_long_arrays<br />
+safe_mode<br />
+magic_quotes_gpc<br />
+magic_quotes_runtime<br />
+magic_quotes_sybase</p>
+<p>【被弃用的函数】<br />
+call_user_method() (使用 call_user_func() 替代)<br />
+call_user_method_array() (使用 call_user_func_array() 替代)<br />
+define_syslog_variables()<br />
+dl()<br />
+ereg() (使用 preg_match() 替代)<br />
+ereg_replace() (使用 preg_replace() 替代)<br />
+eregi() (使用 preg_match() 配合 'i' 修正符替代)<br />
+eregi_replace() (使用 preg_replace() 配合 'i' 修正符替代)<br />
+set_magic_quotes_runtime() 以及它的别名函数 magic_quotes_runtime()<br />
+session_register() (使用 $_SESSION 超全部变量替代)<br />
+session_unregister() (使用 $_SESSION 超全部变量替代)<br />
+session_is_registered() (使用 $_SESSION 超全部变量替代)<br />
+set_socket_blocking() (使用 stream_set_blocking() 替代)<br />
+split() (使用 preg_split() 替代)<br />
+spliti() (使用 preg_split() 配合 'i' 修正符替代)<br />
+sql_regcase()<br />
+mysql_db_query() (使用 mysql_select_db() 和 mysql_query() 替代)<br />
+mysql_escape_string() (使用 mysql_real_escape_string() 替代)<br />
+废弃以字符串传递区域设置名称. 使用 LC_* 系列常量替代.<br />
+mktime() 的 is_dst 参数. 使用新的时区处理函数替代.</p>
+<p>【新参数】<br />
+PHP 核心:<br />
+clearstatcache() - 新增 clear_realpath_cache 和 filename 参数.<br />
+copy() - 新增流环境参数 context.<br />
+fgetcsv() - 新增 escape 参数.<br />
+ini_get_all() - 新增 details 参数.<br />
+nl2br() - 新增 is_xhtml 参数.<br />
+parse_ini_file() - 新增 scanner_mode 参数.<br />
+round() - 新增 mode 参数.<br />
+stream_context_create() - 新增 params 参数.<br />
+strstr() 和 stristr() - 新增 before_needle 参数.</p>
+<p>json:<br />
+json_encode() - 新增 options 参数.<br />
+json_decode() - 新增 depth 参数.</p>
+<p>【新的全局常量】<br />
+__DIR__<br />
+__NAMESPACE__<br />
+E_DEPRECATED<br />
+E_USER_DEPRECATED<br />
+INI_SCANNER_NORMAL<br />
+INI_SCANNER_RAW<br />
+PHP_MAXPATHLEN<br />
+PHP_WINDOWS_NT_DOMAIN_CONTROLLER<br />
+PHP_WINDOWS_NT_SERVER<br />
+PHP_WINDOWS_NT_WORKSTATION<br />
+PHP_WINDOWS_VERSION_BUILD<br />
+PHP_WINDOWS_VERSION_MAJOR<br />
+PHP_WINDOWS_VERSION_MINOR<br />
+PHP_WINDOWS_VERSION_PLATFORM<br />
+PHP_WINDOWS_VERSION_PRODUCTTYPE<br />
+PHP_WINDOWS_VERSION_SP_MAJOR<br />
+PHP_WINDOWS_VERSION_SP_MINOR<br />
+PHP_WINDOWS_VERSION_SUITEMASK</p>
+<p>【新类】<br />
+日期/时间:<br />
+DateInterval<br />
+DatePeriod</p>
+<p>Phar:<br />
+Phar<br />
+PharData<br />
+PharException<br />
+PharFileInfo</p>
+<p>【INI 文件处理改变】<br />
+移除了 zend_extension_debug and zend_extension_ts. 使用 zend_extension 指令来加载全部 Zend 扩展.<br />
+session.use_only_cookies 默认被设置为 "1"(打开).</p>
+<p>【其他改变】<br />
+如果会话启动失败, session_start() 现在将返回 FALSE.<br />
+getimagesize() 现在支持 icon 文件 (.ico).</p>
+<p>【禁用global】<br />
+$SERVER_xxx、$HTTP_xxx等变量替换成$_SERVER['SERVER_xxx']</p>

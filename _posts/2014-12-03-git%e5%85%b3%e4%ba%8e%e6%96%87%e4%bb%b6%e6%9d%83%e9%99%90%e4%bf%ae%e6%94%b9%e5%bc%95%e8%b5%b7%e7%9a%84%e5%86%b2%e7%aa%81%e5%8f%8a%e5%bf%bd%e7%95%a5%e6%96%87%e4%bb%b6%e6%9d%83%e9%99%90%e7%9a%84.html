@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: git关于文件权限修改引起的冲突及忽略文件权限的办法
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 869
+wordpress_url: http://oadoc360.com/?p=869
+date: '2014-12-03 22:49:27 +0800'
+date_gmt: '2014-12-03 14:49:27 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>http://www.01happy.com/git-ignore-filemode/</p>
+<p>项目上用git管理代码，由于开发机器web环境是www用户、文件管理和phpstorm开发工具是用user用户，不同用户间权限问题总是影响效率，干脆全改成777，结果git提交时变成所有文件全部要提交，经查找到如上文章。<br />
+在项目目录下<br />
+git config core.filemode false</p>
+<p>cat .git/config</p>

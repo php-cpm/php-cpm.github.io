@@ -1,0 +1,57 @@
+---
+layout: post
+status: publish
+published: true
+title: PHP编程时你没有注意过的小细节
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 526
+wordpress_url: http://zouyi.rayyn.net/2011/03/php%e7%bc%96%e7%a8%8b%e6%97%b6%e4%bd%a0%e6%b2%a1%e6%9c%89%e6%b3%a8%e6%84%8f%e8%bf%87%e7%9a%84%e5%b0%8f%e7%bb%86%e8%8a%82/
+date: '2011-03-01 15:22:57 +0800'
+date_gmt: '2011-03-01 07:22:57 +0800'
+categories:
+- 生活碎念
+tags: []
+comments:
+- id: 38
+  author: Tonya
+  author_email: greenmaster@gmail.com
+  author_url: http://bestgymequipments.com/
+  date: '2011-12-17 17:51:25 +0800'
+  date_gmt: '2011-12-17 09:51:25 +0800'
+  content: 博主很强大，我支持
+---
+<ol>
+<li>
+<div>php常常是以"<?"开始，"?>"结尾；但实际上我们可以不用写"?>"，而且官方手册还推荐大家使用当使用 include() 或者 require() 时省略掉。（见语言参考-基本语法-指令分隔符中Note）
+</div>
+<p><span style="font-family:宋体; font-size:12pt">文件末尾的 PHP 代码段结束标记可以不要，有些情况下当使用 include() 或者 require() 时省略掉会更好些，这样不期望的白空格就不会出现在文件末尾，之后仍然可以输出响应标头。在使用输出缓冲时也很便利，就不会看到由包含文件生成的不期望的白空格。<br />
+</span></p>
+</li>
+<li>
+<div>编程时常常会用到简单if else判断，如果这里足够简单的话，其实推荐使用三目运算符代替。
+</div>
+<p><span style="font-family:宋体; font-size:12pt">例如：if($a==0){$b=1;}else{$b=2;}可以用这个代替 $b=($a==0)?1:2; 显然后者更加简短清晰，题目了然，这样就能减少不必要的大括号了。<br />
+</span></p>
+</li>
+<li>
+<div>整理总结中
+</div>
+<p>&nbsp;<br />
+&nbsp;</p>
+</li>
+</ol>
+<p><span style="font-family:宋体; font-size:12pt">他山之石<br />
+</span></p>
+<p><span style="color:#444444; font-family:宋体"><span style="font-size:10pt">Gregory Szorc 在他<a href="http://www.hkpug.net/links/goto/93/6/links_related" title=""><span style="color:#1251c6">網誌</span></a>中分享一些他相信大部分人都不知道的 PHP 招式：</span><span style="font-size:12pt"></p>
+<p></span><span style="font-size:10pt">1. 結尾的 ?> 可以省略：是否必定要有這個結尾的 ?> 頗具爭議性，不過若果你的程式輸出 XML，在結尾的 ?> 後面不小心留下了一些空行，後果可以是很災難性的，所以 Gregory 說他習慣了不寫結尾的 ?>。</span><span style="font-size:12pt"></p>
+<p></span><span style="font-size:10pt">2. 在 PHP 程式中插入其他編程語言：例如 Java, Perl, .NET 和 Python 等，只需有了適合的 PECL 擴充模組，在 PHP 中插入其他語言可以產生很有創意的效果。</span><span style="font-size:12pt"></p>
+<p></span><span style="font-size:10pt">3. 可以透過陣列的語法來存取物件內的變量：透過 Standard PHP Library (SPL) 可以令物件看起來就像陣列，產生類似以下的效果：</span><span style="font-size:12pt"></p>
+<p></span><span style="font-size:10pt">$object = new MyObject();</span><span style="font-size:12pt"><br /></span><span style="font-size:10pt">$object['name'] = 'Hello World';</span><span style="font-size:12pt"></p>
+<p></span><span style="font-size:10pt">4. require 比 require_once 快：從 PHP 5.2 開始 require 將會比 require_once 快，因為 require 不會檢查坎入的檔案／函數是否已經存在，不過 Gregory 建議兩者不要用，應該使用 __autoload 函數或者 SPL 的 spl_autoload_* 函數。</span><span style="font-size:12pt"></p>
+<p></span><span style="font-size:10pt">5. 任何使用 PHP 5.1 之前的人和事都是愚蠢的：Zend 不再維護 PHP 5.0.x，PHP 4 不會再有新的功能，PHP Data Objects (PDO) 的靈活和安全性，加上對 Object Oriented 的全面支援，我們沒有理由不升級到 PHP 5.1。</span></span></p>

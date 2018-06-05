@@ -1,0 +1,31 @@
+---
+layout: post
+status: publish
+published: true
+title: 关于软件授权的思路
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1083
+wordpress_url: http://oadoc360.com/?p=1083
+date: '2017-05-16 09:18:40 +0800'
+date_gmt: '2017-05-16 01:18:40 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>过去共享软件做注册码机制，破解软件大行其道，究其原因，算法再牛逼也是对称加密，知道了算法甚至多知道几个结果就能推导出需要哪些数据做参数。<br />
+最近肆虐的WanaCrypt0r病毒的如何做到安全加密防破解的呢？<br />
+他使用了一种cryptGenRandom的方案，就是对每个文件随机产生加密，用户就很难手动恢复所有文件。而且加密的文件类型涵盖广泛，后缀名<br />
+.doc, .docx, .xls, .xlsx, .ppt, .pptx, .pst, .ost, .msg, .eml, .vsd, .vsdx, .txt, .csv, .rtf, .123, .wks, .wk1, .pdf, .dwg, .onetoc2, .snt, .jpeg, .jpg, .docb, .docm, .dot, .dotm, .dotx, .xlsm, .xlsb, .xlw, .xlt, .xlm, .xlc, .xltx, .xltm, .pptm, .pot, .pps, .ppsm, .ppsx, .ppam, .potx, .potm, .edb, .hwp, .602, .sxi, .sti, .sldx, .sldm, .sldm, .vdi, .vmdk, .vmx, .gpg, .aes, .ARC, .PAQ, .bz2, .tbk, .bak, .tar, .tgz, .gz, .7z, .rar, .zip, .backup, .iso, .vcd, .bmp, .png, .gif, .raw, .cgm, .tif, .tiff, .nef, .psd, .ai, .svg, .djvu, .m4u, .m3u, .mid, .wma, .flv, .3g2, .mkv, .3gp, .mp4, .mov, .avi, .asf, .mpeg, .vob, .mpg, .wmv, .fla, .swf, .wav, .mp3, .sh, .class, .jar, .java, .rb, .asp, .php, .jsp, .brd, .sch, .dch, .dip, .pl, .vb, .vbs, .ps1, .bat, .cmd, .js, .asm, .h, .pas, .cpp, .c, .cs, .suo, .sln, .ldf, .mdf, .ibd, .myi, .myd, .frm, .odb, .dbf, .db, .mdb, .accdb, .sql, .sqlitedb, .sqlite3, .asc, .lay6, .lay, .mml, .sxm, .otg, .odg, .uop, .std, .sxd, .otp, .odp, .wb2, .slk, .dif, .stc, .sxc, .ots, .ods, .3dm, .max, .3ds, .uot, .stw, .sxw, .ott, .odt, .pem, .p12, .csr, .crt, .key, .pfx, .der</p>
+<p>软件做授权可以参考什么呢？</p>
+<p>单项加密或者服务器存储尽可能多的特征来保证认证，把校验数据在软件开发者的服务端留存一份。</p>
+<p>用户在安装、升级或迁移时都需要连接到软件开发者的服务端做校验，就杜绝了任何破解的可能性。</p>
+<p>当然如果想网开一面，故意让破解可能的话，就学学WanaCrypt0r，提供穷人通道: )</p>
+<p>参考资料：http://www.freebuf.com/vuls/134602.html<br />
+https://gist.github.com/rain-1/989428fa5504f378b993ee6efbc0b168</p>

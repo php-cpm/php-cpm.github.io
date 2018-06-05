@@ -1,0 +1,265 @@
+---
+layout: post
+status: publish
+published: true
+title: 多种方法结合加速网站
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 310
+wordpress_url: http://zouyi.ixiezi.com/?p=310
+date: '2010-02-12 10:40:28 +0800'
+date_gmt: '2010-02-12 02:40:28 +0800'
+categories:
+- WEB技术
+tags: []
+comments: []
+---
+<table style="border-collapse: collapse" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody>
+<tr>
+<td height="25" align="center"><span style="font-size: 14pt;color: #02368d"><strong>使用主从读写分离 + memcached + eaccelerator + 页面缓存技术加速网站</strong></span></td>
+</tr>
+<tr>
+<td height="1" bgcolor="#d2dee2"></td>
+</tr>
+<tr>
+<td height="1" bgcolor="#ffffff"></td>
+</tr>
+<tr>
+<td align="center">
+<table style="border-collapse: collapse" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody>
+<tr>
+<td width="100%">
+<div id="art" style="margin: 15px">windows环境下：<br />
+安装appserv 工具包。</p>
+<p>配置apache的虚拟主机：<br />
+Include conf/extra/httpd-vhosts.conf</p>
+<p>编辑httpd-vhosts.conf：<br />
+NameVirtualHost *:80</p>
+<p><VirtualHost *:80><br />
+DocumentRoot "D:/AppServ/www/"<br />
+ServerName youhap<br />
+ErrorLog "logs/youhap-error.log"<br />
+CustomLog "logs/youhap-access.log" common<br />
+</VirtualHost></p>
+<p><VirtualHost *:80><br />
+DocumentRoot "D:/AppServ/www/mysite/"<br />
+ServerName center<br />
+ErrorLog "logs/center-error.log"<br />
+CustomLog "logs/center-access.log" common<br />
+</VirtualHost></p>
+<p>编辑hosts：<br />
+127.0.0.1&nbsp;&nbsp;&nbsp; localhost<br />
+127.0.0.1&nbsp;&nbsp;&nbsp; center<br />
+127.0.0.1&nbsp;&nbsp;&nbsp; youhap</p>
+<p>分别保存。</p>
+<p>php编码，我使用的是codeigniter这个框架。<br />
+下载地址：http://219.239.26.9/download/832062/866311/1/zip/151/72/1252812646551_840/CodeIgniter_1.7.2.zip</p>
+<p>mysql主从分离：</p>
+<p>mysql主从配置及优化：<br />
+-------------Mysql Replication Setup------------<br />
+# The MySQL server<br />
+[mysqld]<br />
+port&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 3306<br />
+server-id = 1<br />
+#log-bin<br />
+master-host = 10.99.1.1<br />
+master-user = slave<br />
+master-password = slave<br />
+master-port = 3306<br />
+slave-skip-errors = 1050,1007,1051,1062<br />
+read-only<br />
+socket&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = /tmp/mysql.sock<br />
+skip-locking<br />
+key_buffer = 384M<br />
+max_allowed_packet = 1M<br />
+table_cache = 512<br />
+sort_buffer_size = 2M<br />
+read_buffer_size = 2M<br />
+read_rnd_buffer_size = 8M<br />
+myisam_sort_buffer_size = 64M<br />
+thread_cache_size = 8<br />
+query_cache_size = 32M<br />
+# Try number of CPU's*2 for thread_concurrency<br />
+thread_concurrency = 8</p>
+<p>在master执行：<br />
+mysql>GRANT FILE ON *.* TO slave@'%' IDENTIFIED BY 'slave';<br />
+mysql>GRANT REPLICATION SLAVE ON *.*&nbsp; TO slave@'%' IDENTIFIED BY 'slave';<br />
+mysql>flush privileges;</p>
+<p>修改slave的my.cnf：<br />
+master-host&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp; 10.99.1.1<br />
+master-user&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp; slave<br />
+master-password =&nbsp; slave<br />
+master-port&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp; 3306<br />
+server-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =&nbsp; 2<br />
+slave-skip-errors = 1050,1007,1051,1062<br />
+read-only</p>
+<p>启动mysql以后，<br />
+在从上执行：slave start;<br />
+主从复制成功以后，继续。</p>
+<p>一个主master，多个从slave<br />
+修改、插入连接master服务器，读取数据从slave上读取。<br />
+以下代码已经测试通过。<br />
+数据库连接设置：<br />
+<?php<br />
+$active_group = "master";<br />
+$active_record = TRUE;</p>
+<p>$db['master']['hostname'] = "192.168.1.1";<br />
+$db['master']['username'] = "root";<br />
+$db['master']['password'] = "******************";<br />
+$db['master']['database'] = "dbname";<br />
+$db['master']['dbdriver'] = "mysql";<br />
+$db['master']['dbprefix'] = "";<br />
+$db['master']['pconnect'] = TRUE;<br />
+$db['master']['db_debug'] = TRUE;<br />
+$db['master']['cache_on'] = FALSE;<br />
+$db['master']['cachedir'] = "";<br />
+$db['master']['char_set'] = "utf8";<br />
+$db['master']['dbcollat'] = "utf8_general_ci";</p>
+<p>$db['slave']['hostname'] = "192.168.1.2";<br />
+$db['slave']['username'] = "root";<br />
+$db['slave']['password'] = "********************";<br />
+$db['slave']['database'] = "dbname";<br />
+$db['slave']['dbdriver'] = "mysql";<br />
+$db['slave']['dbprefix'] = "";<br />
+$db['slave']['pconnect'] = TRUE;<br />
+$db['slave']['db_debug'] = TRUE;<br />
+$db['slave']['cache_on'] = FALSE;<br />
+$db['slave']['cachedir'] = "";<br />
+$db['slave']['char_set'] = "utf8";<br />
+$db['slave']['dbcollat'] = "utf8_general_ci";<br />
+?></p>
+<p>这个地方，主从已经分离。但是，如果只有主和从两台服务器的话，如果写数据库的操作所占比例较小的情况下，也可以让主服务器承担一部分查询操作。修改以上的配置：<br />
+$rand = mt_rand(1, 10);<br />
+/* 只有主从<br />
+* 读取数据，主：30%，从70%<br />
+* */<br />
+if( $rand < 4){<br />
+$db['slave']['hostname'] = 'master_ip';<br />
+}else{<br />
+$db['slave']['hostname'] = 'slave_ip';<br />
+}</p>
+<p>/* 多个从，随机选择其中之一读取数据<br />
+* $slaveGroup = array('slave1_ip' => 1, 'slave2_ip' => 2, 'slave3_ip' => 3);<br />
+* $db['slave']['hostname'] = array_rand($slaveGroup, 1);<br />
+* */</p>
+<p>控制器：<br />
+<?php<br />
+class Replication extends Controller{<br />
+private $master;<br />
+private $slave;</p>
+<p>function Replication(){<br />
+parent::Controller();<br />
+$this->master = $this->load->database('master', true, true);<br />
+$this->slave = $this->load->database('slave', true, true);<br />
+}<br />
+function index(){<br />
+//读写分离技术<br />
+$this->master->set('awardName', '2008 olimpic games media');<br />
+$this->master->set('awardSubTypeId', 1);<br />
+$this->master->set('awardTypeId', 1);<br />
+$this->master->insert('awards');</p>
+<p>$this->slave->from('t_login');<br />
+$query2 = $this->slave->get();<br />
+}</p>
+<p>function memcache(){<br />
+$this->load->library('cache');<br />
+$conn = $this->cache->useMemcache('127.0.0.1', 11211);<br />
+$this->slave->from('t_login');<br />
+$query = $this->slave->get();<br />
+$this->cache->save('loginInfo', $query->result(), null, 3600);<br />
+var_dump($this->cache->get('loginInfo'));</p>
+<p>?></p>
+<p>安装memcached：<br />
+下载：http://jehiah.cz/projects/memcached-win32/files/memcached-1.2.1-win32.zip<br />
+安装：cmd --> memcached.exe -d install<br />
+启动：cmd --> memcached.exe -d start<br />
+启动成功以后。</p>
+<p>在php.ini里面加载memcache.dll<br />
+下载：http://jp.php.net/distributions/pecl-5.2.6-Win32.zip（注意版本，我的php是5.2.6）<br />
+解压缩，找到memcache.dll放在ext目录下。</p>
+<p>加载：打开php.ini:<br />
+extension=php_memcache.dll</p>
+<p>重启apache。没有错误表示可以用memcache了。</p>
+<p>使用：<br />
+<?php</p>
+<pre style="font-family: monospace"><span style="color: #000088">$memcache</span> <span style="color: #339933">=</span> <span style="color: #000000;font-weight: bold">new</span> Memcache<span style="color: #339933">;</span>
+<span style="color: #000088">$memcache</span><span style="color: #339933">-></span><span style="color: #004000">connect</span><span style="color: #009900">(</span><span style="color: #0000ff">'localhost'</span><span style="color: #339933">,</span> <span style="color: #cc66cc">11211</span><span style="color: #009900">)</span> or <span style="color: #990000">die</span> <span style="color: #009900">(</span><span style="color: #0000ff">"Could not connect"</span><span style="color: #009900">)</span><span style="color: #339933">;</span>
+<span style="color: #000088">$data</span> <span style="color: #339933">=</span> <span style="color: #000088">$memcache</span><span style="color: #339933">-></span><span style="color: #004000">get</span><span style="color: #009900">(</span><span style="color: #0000ff">'view_data'</span><span style="color: #009900">)</span><span style="color: #339933">;</span>
+<span style="color: #000088">$memcache</span><span style="color: #339933">-></span><span style="color: #004000">set</span><span style="color: #009900">(</span><span style="color: #0000ff">'view_data'</span><span style="color: #339933">,</span> <span style="color: #000088">$data</span><span style="color: #339933">,</span> <span style="color: #009900;font-weight: bold">false</span><span style="color: #339933">,</span> <span style="color: #cc66cc">3600</span><span style="color: #009900">)</span> or <span style="color: #990000">die</span> <span style="color: #009900">(</span><span style="color: #0000ff">"Failed to save data at the server"</span><span style="color: #009900">)</span><span style="color: #339933">;</span>
+$memcache->get('view_data');</pre>
+<p>?></p>
+<table style="border-collapse: collapse" border="1" cellspacing="0" cellpadding="0" width="360" align="center">
+<tbody>
+<tr>
+<td width="60" align="center"><img src="http://blog.chinaunix.net/fileicon/zip.gif" border="0" alt="" /></td>
+<td>
+<table style="border-collapse: collapse" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tbody>
+<tr>
+<td width="40" align="center">文件:</td>
+<td>Cache.zip</td>
+</tr>
+<tr>
+<td width="40" align="center">大小:</td>
+<td>1KB</td>
+</tr>
+<tr>
+<td width="40" align="center">下载:</td>
+<td><a href="http://blogimg.chinaunix.net/blog/upfile2/090926034536.zip">下载</a></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>继续优化：<br />
+使用<strong>eAccelerator，官方主页：http://eaccelerator.net/<br />
+windows版本：http://www.sitebuddy.com/PHP/Accelerators/eAccelerator_windows_binaries_builds</p>
+<p>注意版本。</p>
+<p>下载好的eAccelerator0952_5.2.6.dll放在php的ext扩展下，打开php.ini:</p>
+<p>extension=</strong><strong>eAccelerator0952_5.2.6.dll</strong><br />
+<strong>eaccelerator.shm_size="64" ; 20MB per heavy site ?<br />
+eaccelerator.cache_dir="D:AppServwwwmysitesystemcache"<br />
+eaccelerator.enable="1"<br />
+eaccelerator.optimizer="1"<br />
+eaccelerator.check_mtime="1"<br />
+; 0 should be faster but will skip checking the modified date on your cached files eaccelerator.debug="0"<br />
+eaccelerator.filter=""<br />
+eaccelerator.shm_max="0"<br />
+eaccelerator.shm_ttl="0" ;( I have used 3600 = 1 hour)<br />
+eaccelerator.shm_prune_period="0"&nbsp; ;( testing 1800)<br />
+eaccelerator.shm_only="0" ;(testing 1 this seem noticeably faster?)<br />
+eaccelerator.compress="1"<br />
+eaccelerator.compress_level="9"<br />
+eaccelerator.keys = "shm" ;(testing)<br />
+eaccelerator.sessions = "shm" ;(testing)<br />
+eaccelerator.content = "shm" ;(testing)<br />
+eaccelerator.admin.name="yourusername" ;(upto eAccelerator 0.9.4)<br />
+eaccelerator.admin.password="yourpassword" ;(upto eAccelerator 0.9.4</p>
+<p>如果还不够快，可以用smarty或者其他的页面缓存。这样你的网站就跟飞一样快。</p>
+<p>有人已经测试过了，在这里：http://www.haughin.com/2008/02/13/optimizing-and-scaling-your-codeigniter-application/<br />
+</strong></p>
+<p>参考文档：<br />
+http://devbee.com/opcode_cache_for_dummies<br />
+<strong>http://www.haughin.com/2008/02/13/optimizing-and-scaling-your-codeigniter-application/<br />
+http://www.sitebuddy.com/PHP/Accelerators/eAccelerator<br />
+http://blog.zol.com.cn/838/article_837067.html<br />
+http://hi.baidu.com/xpiaoxue/blog/item/f87b2aecbb33c534279791ac.html<br />
+http://codeigniter.com/forums/viewthread/57117/<br />
+</strong></div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>

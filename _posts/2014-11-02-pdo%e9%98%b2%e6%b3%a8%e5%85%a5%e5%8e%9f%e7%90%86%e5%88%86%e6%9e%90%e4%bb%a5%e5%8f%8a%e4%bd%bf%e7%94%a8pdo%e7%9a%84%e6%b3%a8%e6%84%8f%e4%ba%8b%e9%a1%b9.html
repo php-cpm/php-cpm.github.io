@@ -1,0 +1,50 @@
+---
+layout: post
+status: publish
+published: true
+title: PDO防注入原理分析以及使用PDO的注意事项
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 861
+wordpress_url: http://oadoc360.com/?p=861
+date: '2014-11-02 10:50:58 +0800'
+date_gmt: '2014-11-02 02:50:58 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>http://zhangxugg-163-com.iteye.com/blog/1835721</p>
+<p><code><br />
+<?php<br />
+$pdo = new PDO("mysql:host=192.168.0.1;dbname=test;","root");<br />
+$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);</p>
+<p>$st = $pdo->prepare("select * from info where id =? and name = ?");<br />
+$id = 21;<br />
+$name = 'zhangsan';</p>
+<p>$st->bindParam(1,$id);<br />
+$st->bindParam(2,$name);<br />
+$st->execute();<br />
+$st->fetchAll();<br />
+?><br />
+</code><br />
+三、使用PDO的注意事项<br />
+知道以上几点之后，我们就可以总结使用PDO杜绝SQL注入的几个注意事项：<br />
+1.  php升级到5.3.6+，生产环境强烈建议升级到php 5.3.9+ php 5.4+，php 5.3.8存在致命的hash碰撞漏洞。</p>
+<p>2. 若使用php 5.3.6+, 请在在PDO的DSN中指定charset属性</p>
+<p>3. 如果使用了PHP 5.3.6及以前版本，设置PDO::ATTR_EMULATE_PREPARES参数为false（即由MySQL进行变量处理），php 5.3.6以上版本已经处理了这个问题，无论是使用本地模拟prepare还是调用mysql server的prepare均可。在DSN中指定charset是无效的，同时set names <charset>的执行是必不可少的。</p>
+<p>4. 如果使用了PHP 5.3.6及以前版本, 因Yii框架默认并未设置ATTR_EMULATE_PREPARES的值，请在数据库配置文件中指定emulatePrepare的值为false。</p>
+<p>那么，有个问题，如果在DSN中指定了charset, 是否还需要执行set names <charset>呢？<br />
+是的，不能省。set names <charset>其实有两个作用：<br />
+A.  告诉mysql server, 客户端（PHP程序）提交给它的编码是什么<br />
+B.  告诉mysql server, 客户端需要的结果的编码是什么<br />
+也就是说，如果数据表使用gbk字符集，而PHP程序使用UTF-8编码，我们在执行查询前运行set names utf8, 告诉mysql server正确编码即可，无须在程序中编码转换。这样我们以utf-8编码提交查询到mysql server, 得到的结果也会是utf-8编码。省却了程序中的转换编码问题，不要有疑问，这样做不会产生乱码。</p>
+<p>那么在DSN中指定charset的作用是什么? 只是告诉PDO, 本地驱动转义时使用指定的字符集（并不是设定mysql server通信字符集），设置mysql server通信字符集，还得使用set names <charset>指令。</p>
+<p>如果图片丢失，可以发邮件至zhangxugg@163.com, 索取PDF版本。</p>
+<p>我真想不通，一些新的项目，为何不使用PDO而使用传统的mysql_XXX函数库呢？如果正确使用PDO，可以从根本上杜绝SQL注入，我强烈建议各个公司的技术负责人、一线技术研发人员，要对这个问题引起重视，尽可能使用PDO加快项目进度和安全质量。</p>
+<p>不要再尝试自己编写SQL注入过滤函数库了（又繁琐而且很容易产生未知的漏洞）。</p>

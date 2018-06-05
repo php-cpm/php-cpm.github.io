@@ -1,0 +1,112 @@
+---
+layout: post
+status: publish
+published: true
+title: 对dz下的flv播放器进一步探索
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 216
+wordpress_url: http://zouyi.ixiezi.com/?p=216
+date: '2009-12-01 21:01:41 +0800'
+date_gmt: '2009-12-01 13:01:41 +0800'
+categories:
+- WEB技术
+tags:
+- api
+- FLASH
+- HTML
+- JAVASCRIPT
+- video
+comments:
+- id: 11
+  author: Firefox
+  author_email: lzcncist@gmail.com
+  author_url: http://www.wenan8.com
+  date: '2009-12-02 22:21:49 +0800'
+  date_gmt: '2009-12-02 14:21:49 +0800'
+  content: |-
+    申请友情链接。
+    文安吧社区：http://www.wenan8.com
+
+    just think it http://www.wenan8.com/blog
+- id: 12
+  author: Firefox
+  author_email: lzcncist@gmail.com
+  author_url: http://www.wenan8.com
+  date: '2009-12-02 22:22:14 +0800'
+  date_gmt: '2009-12-02 14:22:14 +0800'
+  content: |-
+    申请友情链接。
+    文安吧社区：www.wenan8.com
+
+    just think it   www.wenan8.com/blog
+- id: 13
+  author: 夜行者萝莉控
+  author_email: zoutommy@gmail.com
+  author_url: http://zouyi.ixiezi.com
+  date: '2009-12-02 22:36:07 +0800'
+  date_gmt: '2009-12-02 14:36:07 +0800'
+  content: "- -!"
+---
+<p>今晚测试一下veapon同学说的jw player。其实这个东东之前见过，不过没自己用过。具体用哪些代码来调用是个问题</p>
+<p>先做做功课</p>
+<p>http://www.longtailvideo.com/players/jw-flv-player/#Instructions</p>
+<blockquote>
+<h2 style="color: #fe9b00;font-size: 24px">JW Player&trade; Instructions说明文档</h2>
+<p>The JW Player&trade; is the Internet's most popular and flexible media player.  It supports playback of any format the <a title="the Flash Player" href="http://www.adobe.com/products/flashplayer/">Adobe Flash Player</a> can handle (FLV, MP4, MP3, AAC, JPG, PNG and GIF). It also supports RTMP, HTTP, live streaming, various <a href="http://developer.longtailvideo.com/trac/wiki/FlashFormats">playlists formats</a>, a wide range of <a href="http://developer.longtailvideo.com/trac/wiki/FlashVars">settings</a> and an extensive <a title="an overview of all available javascript interaction" href="http://developer.longtailvideo.com/trac/wiki/FlashAPI">javascript API</a>.</p>
+<h3><span style="color: #0000ff">JW Player&trade;是一个网上著名的综合性媒体播放器。它支持所有<a title="the Flash Player" href="http://www.adobe.com/products/flashplayer/">Adobe Flash Player</a>支持的回放格式（FLV, MP4, MP3, AAC, JPG, PNG 以及GIF）它也支持RTMP, HTTP,流媒体和各种播放列表，很大范围的设置以及一个JS的API接口。</span></h3>
+<p>The <a title="Skinning the JW Player" href="http://developer.longtailvideo.com/trac/wiki/FlashSkinning">skinning functionality</a> allows you to completely customize its look and its <a title="How to build JW Player plugins" href="http://developer.longtailvideo.com/trac/wiki/Building%20JW%20Player%20Plugins">plugin architecture</a> allows you to easily extend the player with features such as <a href="http://www.longtailvideo.com/AddOns/productpage.html?addon=47&amp;q=&amp;category=">sharing</a>, <a href="http://www.longtailvideo.com/AddOns/productpage.html?addon=47&amp;q=&amp;category=">recommendations</a>, <a href="http://www.longtailvideo.com/AddOns/productpage.html?addon=45&amp;q=&amp;category=">searching</a>, <a href="http://www.longtailvideo.com/AddOns/productpage.html?addon=43&amp;q=&amp;category=">analytics</a> and <a href="http://www.longtailvideo.com/AddOns/productpage.html?addon=2&amp;q=&amp;category=">ad serving</a>.</p>
+<h3><span style="color: #0000ff">换肤功能允许你完全改变他的界面外观，而插件机制允许你更容易的为播放器增加&ldquo;分享、提醒、搜索、分析、广告代理&rdquo;等特性。</span></h3>
+<h2 id="installation">Installation安装</h2>
+<p>This section details a step-by-step process of how to install the JW Player&trade; onto your page. The download ZIP contains everything you need to get started.</p>
+<h3><span style="color: #0000ff">此部分教您如何一步一步把JW Player&trade;安装到您的页面上去。下载到的ZIP包囊括所有你需要准备的东西，直接开始吧。</span></h3>
+<p><strong>Step 1:</strong> Transfer the player.swf and swfobject.js file from the ZIP to your website. (Make sure that you've also uploaded all the necessary videos / songs / images to your site.)</p>
+<h3><span style="color: #0000ff">第一步：把player.swf a和 swfobject.js两个文件从zip包解压出来并上传 到你的 网站。（当然要确保你的视频啊音乐 啊 图片啊什么的都已经传到站点去了。）</span></h3>
+<p><strong>Step 2:</strong> Embed the player in your HTML page with the lines of code below. Note: If you place the files in different directories, make sure to set the references in this code accordingly.</p>
+<h3><span style="color: #0000ff">第二步：像下面这样把代码嵌入你的HTML语句中。注意：如果文件传的目录不同，自行按照代码设置好路径。</span></h3>
+<p><code>
+<p id='preview'>The player will show in this paragraph</p>
+<p><script type='text/javascript' src='swfobject.js'></script><br />
+<script type='text/javascript'><br />
+var s1 = new SWFObject('player.swf','player','400','300','9');<br />
+s1.addParam('allowfullscreen','true');<br />
+s1.addParam('allowscriptaccess','always');<br />
+s1.addParam('flashvars','file=video.flv');<br />
+s1.write('preview');<br />
+</script></code></p>
+<p><span style="color: #ff0000">在dz后太编辑器设置中discuz代码增加flv的代码内将以上代码粘贴进去，仅改动video.flv为{1}，参数设置为1</span><span style="color: #ff0000">即可。</span></p>
+<p><span style="color: #ff0000">测试效果，由于是JS的，因此一个页面只能加载一个实例。第一次播放有dz的crossdomain权限禁止的弹出提示，不过能够播放，FF下能正常播放，由于论坛是UTF8编码而FTP为GBK编码，所以IE下仍然只支持纯英文路径。</span></p>
+<p><span style="color: #ff0000">相比之前的播放器好处有：如果ftp上没有这个文件或者无法打开文件直接在播放器中显示错误信息而不是前者那样在FF下不断的弹出ftp连接错误提示。<br />
+</span></p>
+<p><span style="color: #ff0000">若要用于论坛需要修改的地方有：播放开始时的JWplayerlogo</span><span style="color: #ff0000">淡出</span><span style="color: #ff0000">效果要去掉，最好能加入自己提示文字。更多东西慢慢完善。</span></p>
+<p>Notice the <em>flashvars</em> parameter above can contain a list of variables for configuring the player to use different Plugins or Skins. To quickly set up flashvars, use the<a title="the flv mp3 media player wizard" href="http://www.longtailvideo.com/support/jw-player-setup-wizard">setup wizard</a>. Simply choose an example, select the variables you want to use and paste the code onto your page.  It's that easy.</p>
+<h3><span style="color: #0000ff">提醒：代码中的<em>flashvars</em>参数可以包含一大列表的配置播放器的插件或皮肤。试试用设置向导<a title="the flv mp3 media player wizard" href="http://www.longtailvideo.com/support/jw-player-setup-wizard">setup wizard</a>.来快速设置这个参数吧。仅需要选择一个实例，选择你需要的值，复制代码到你的页面即可，如此简单。</span></h3>
+<h2 id="documentation">Documentation文档</h2>
+<p>All documentation of the JW Player can be found in the <a title="TRAC code management for JW Player" href="http://developer.longtailvideo.com/trac/">JW Player Wiki</a>. The Wiki also includes our product roadmap, source code and bug tickets.  Here are some direct links:</p>
+<h3><span style="color: #0000ff">所有文档都可在JW player的维基<a title="TRAC code management for JW Player" href="http://developer.longtailvideo.com/trac/">JW Player Wiki</a>上找到。这个维基也囊括我们的产品指南，源代码和BUG记录。直链如下：下面就不用翻译了吧</span></h3>
+<ul style="margin: 1em 0pt 1em 30px">
+<li><a title="changelog for the 4.6 player" href="http://developer.longtailvideo.com/trac/milestone/Flash%204.6">Release overview</a> and <a href="http://developer.longtailvideo.com/trac/query?group=resolution&amp;milestone=Flash+4.6&amp;order=priority">complete change log</a> for the JW Player&trade;.</li>
+<li><a title="All file and playlist formats supported by the player" href="http://developer.longtailvideo.com/trac/wiki/FlashFormats">Supported file and playlist formats</a>, along with implementation information.</li>
+<li><a title="All Flashvars supported by the JW Player for Flash" href="http://developer.longtailvideo.com/trac/wiki/FlashVars">Supported flashvars</a> (variables) you can select to customize the player.</li>
+<li><a title="JW Player javascript API" href="http://developer.longtailvideo.com/trac/wiki/FlashAPI">Javascript API overview</a> (included with the player).</li>
+<li><a title="Skinning the JW Player" href="http://developer.longtailvideo.com/trac/wiki/FlashSkinning">List of all skinnable elements</a> in the player and information on how to create a skin.</li>
+</ul>
+<p>If you've created a CMS module that embeds the player in an existing CMS (or you've found one online), <a href="http://www.longtailvideo.com/AddOns/submitregister.html">please submit it here</a>.</p>
+<p>Also, make sure to check out one of our many tutorials, which cover topics such as:</p>
+<ul style="margin: 1em 0pt 1em 30px">
+<li><a title="embedding Flash" href="http://www.longtailvideo.com/support/tutorials/Embedding-Flash">Embedding a flash object</a> in your site (simple embed and SWFObject).</li>
+<li><a title="FLV MP4 video compression" href="http://www.longtailvideo.com/support/tutorials/Web-Video-Compression">Converting your video</a> to FLV or MP4.</li>
+<li><a title="Adding closed captioning and audio description" href="http://www.longtailvideo.com/support/tutorials/Making-Video-Accessible">Adding accessibility features</a> (closed captions and an audio description).</li>
+<li><a href="http://www.longtailvideo.com/support/tutorials/Javascript-API-Examples">Controlling the player through JavaScript</a>.</li>
+<li><a href="http://www.longtailvideo.com/support/tutorials/HTTP-Video-Streaming">Setting up HTTP video streaming</a> (seeking, throttling, security, lighttpd).</li>
+<li><a href="http://www.longtailvideo.com/support/tutorials/Skinning-the-JW-Player">Skinning the JW Player</a>.</li>
+<li><a href="http://developer.longtailvideo.com/trac/wiki/Building%20JW%20Player%20Plugins">Building JW Player Plugins</a>.</li>
+<li><a href="http://developer.longtailvideo.com/trac/wiki/The%20Yousearch%20plugin%20Tutorial">The Yousearch plugin tutorial</a> (a step-by-step Plugin coding example).</li>
+</ul>
+<h2 id="support">Support</h2>
+</blockquote>

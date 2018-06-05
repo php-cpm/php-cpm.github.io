@@ -1,0 +1,27 @@
+---
+layout: post
+status: publish
+published: true
+title: 开始尝试ThinkPHP开发
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 461
+wordpress_url: http://zouyi.rayyn.net/?p=461
+date: '2010-10-14 12:32:17 +0800'
+date_gmt: '2010-10-14 04:32:17 +0800'
+categories:
+- WEB技术
+tags:
+- thinkphp
+comments: []
+---
+<p>前几天下了ThinkPHP，并按照手册上的例子生成了首页，并不是很理解它所谓的单一入口文件的意思。今想用它增加一个login页。仔细研读下才明白。</p>
+<p>整个项目就一个index.php文件。引入ThinkPHP框架后通过类似于</p>
+<p>http://[::1]/index.php/index/index</p>
+<p>http://[::1]/index.php/index/login</p>
+<p>这种形式来访问。即手册中所指：&ldquo;ThinkPHP 框架的应用采用单一入口文件来执行，所有的模块和操作都通过URL 的参数来访问和执行。&rdquo;</p>

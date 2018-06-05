@@ -1,0 +1,23 @@
+---
+layout: post
+status: publish
+published: true
+title: 'lumen框架做PHPUNIT测试时遇到ReflectionException: Class config does not exist'
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1013
+wordpress_url: http://oadoc360.com/?p=1013
+date: '2015-12-06 15:03:10 +0800'
+date_gmt: '2015-12-06 07:03:10 +0800'
+categories:
+- lumen
+tags: []
+comments: []
+---
+<p>https://github.com/laravel/framework/issues/8547<br>解决方法：每个test实例都重新创建应用</p>
+<pre>public function setUp()<br>{<br>    parent::setUp();<br><br><p></p><p>    $this->createApplication();</p><p>}</p></pre>

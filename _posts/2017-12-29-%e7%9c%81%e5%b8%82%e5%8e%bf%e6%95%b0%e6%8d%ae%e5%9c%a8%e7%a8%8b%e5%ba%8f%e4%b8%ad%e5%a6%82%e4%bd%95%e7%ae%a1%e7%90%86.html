@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: 省市县数据在程序中如何管理
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1089
+wordpress_url: http://oadoc360.com/?p=1089
+date: '2017-12-29 14:10:25 +0800'
+date_gmt: '2017-12-29 06:10:25 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>我们开发时可能会遇到需要存储xx数据对应的省市县信息，这个时候大家会考虑地名会改名，所以需要有一个映射表，通过id来对应一个地名，比如1山东 2山东济南 3山东济南xx区，然后还会考虑由于行政区划变更导致A地之前属于山东省，更新后属于江苏省，那么还需要记录地方的上级信息，只考虑三级数据那么可以用三个字段存，考虑多级可以用parentId一个字段来存。</p>
+<p>实际上我们应该以国家统计局发布的数据为准，他足够权威数据精准，更新频度不高，且id设计合理</p>
+<p>http://www.stats.gov.cn/tjsj/tjbz/xzqhdm/201703/t20170310_1471429.html</p>
+<p>6位编码如110105 表示北京市（市辖区）朝阳区每两位数为一级，前两位11表示北京市（省级），中间两位01表示北京市（市级），后两位05表示区县（县级）</p>
+<p>整理出id、name的表后如果有数据变更只需全量更新即可。除此之外还可以自定义省市简写、简称等功能以便满足实际业务需求。</p>

@@ -1,0 +1,27 @@
+---
+layout: post
+status: publish
+published: true
+title: homebrew缓存路径
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 996
+wordpress_url: http://oadoc360.com/?p=996
+date: '2015-09-28 16:35:00 +0800'
+date_gmt: '2015-09-28 08:35:00 +0800'
+categories:
+- 未分类
+- MACOS
+tags: []
+comments: []
+---
+<p>由于在终端下载速度太慢，遂考虑先通过地址下载文件后手动放到 缓存目录<br>$wget https://homebrew.bintray.com/bottles/mysql-5.6.26.yosemite.bottle.tar.gz<br>$cd /Library/Caches/Homebrew/<br>$mv ~/mysql-5.6.26.yosemite.bottle.tar.gz ./<br>$brew install mysql</p>
+<p>done！</p>
+<p>==> Downloading https://homebrew.bintray.com/bottles/mysql-5.6.26.yosemite.bottle.tar.gz<br>Already downloaded: /Library/Caches/Homebrew/mysql-5.6.26.yosemite.bottle.tar.gz<br>==> Pouring mysql-5.6.26.yosemite.bottle.tar.gz<br>==> /usr/local/Cellar/mysql/5.6.26/bin/mysql_install_db --verbose --user=zouyi --basedir=/usr/local/Cellar/mysql/5.6.26 -<br>==> Caveats<br>A "/etc/my.cnf" from another install may interfere with a Homebrew-built<br>server starting up correctly.</p></p>
+<p>To connect:<br>    mysql -uroot</p>
+<p>To have launchd start mysql at login:<br>  ln -sfv /usr/local/opt/mysql/*.plist ~/Library/LaunchAgents<br>Then to load mysql now:<br>  launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist<br>Or, if you don't want/need launchctl, you can just run:<br>  mysql.server start<br>==> Summary<br>?  /usr/local/Cellar/mysql/5.6.26: 9854 files, 339M</p>

@@ -1,0 +1,75 @@
+---
+layout: post
+status: publish
+published: true
+title: 最快UCenter API使用入门
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 515
+wordpress_url: http://zouyi.rayyn.net/?p=515
+date: '2011-01-27 22:05:03 +0800'
+date_gmt: '2011-01-27 14:05:03 +0800'
+categories:
+- WEB技术
+tags: []
+comments:
+- id: 34
+  author: 站长工具
+  author_email: wsprite@tom.com
+  author_url: http://www.wsprite.com
+  date: '2011-01-28 03:12:19 +0800'
+  date_gmt: '2011-01-27 19:12:19 +0800'
+  content: 昨天在功能升级过程中发现搜狗的网站评级系统升级了，由原来100分制变成10分制，而且增加了专用查询服务器，查询链接格式为http://rank.ie.sogou.com/sogourank.php?ur=http://www.wsprite.com/，特来提醒朋友，快试试自己的博客和朋友的博客是属于哪个级别。
+- id: 35
+  author: 站长工具
+  author_email: wsprite@tom.com
+  author_url: http://www.wsprite.com
+  date: '2011-02-01 12:51:41 +0800'
+  date_gmt: '2011-02-01 04:51:41 +0800'
+  content: 博主，兔年快乐！
+- id: 36
+  author: Rita
+  author_email: greenmaster@gmail.com
+  author_url: http://homeexerciseequipments.org/
+  date: '2011-12-29 04:53:11 +0800'
+  date_gmt: '2011-12-28 20:53:11 +0800'
+  content: 强大！
+---
+<p>如果你写了一个WEB程序，你又想与ucenter共用一个用户库，你会怎么做？</p>
+<p>来吧，让我告诉你，只要几个简单的步骤就行了。</p>
+<p>1、先到ucenter administrator建一个应用，在应用里配置完你的项目的地址，在UC_KEY那里随便输入一些字符串，越长越好。【在这里有配置通讯文件的名称，好象是提示你在api目录下，你可以定义一个，默认是uc.php】。然后你会一直发现应用列表中，该应用一直是通讯失败。</p>
+<p>2、生成应用后，在应用详情的最下方有一个textarea框，这个就是系统帮你生成的连接ucenter的配置文件 。</p>
+<p>3、在您的项目根目录下建立一个api目录，里面放上刚才说的通讯文件，默认是uc.php</p>
+<p>在通讯文件里定义一些常量，可以从uchome、supesite、等里面拷贝出来，其实就是一些返回值 的常量。</p>
+<p>加载刚才ucenter administrator所生成的配置文件。</p>
+<p>到comsenz的任何一个程序中拷贝一下authcode函数（一般在common.inc.php或者global.inc.php中）</p>
+<p>写上简单的判断代码：</p>
+<p>$code = $_GET['code'];&nbsp;&nbsp; //取得GET回来的code变量</p>
+<p>//经过authcode解码后，转化为一个数组，这个数组里其实就有一些简单的验证信息，如：时间，传递过来的操作等<br />
+parse_str(authcode($code, &lsquo;DECODE&rsquo;, UC_KEY), $get);</p>
+<p>//如果当前时间大于传递来的时间1小时，返回超时<br />
+if(time() &ndash; $get['time'] > 3600) {<br />
+exit(&lsquo;Authracation has expiried&rsquo;);<br />
+}</p>
+<p>//如果转换出来的$get变量是空值 ，那肯定是出错了<br />
+if(empty($get)) {<br />
+exit(&lsquo;Invalid Request&rsquo;);<br />
+}</p>
+<p>//获取传递过来的操作<br />
+$action = $get['action'];</p>
+<p>//写上一个简单的判断<br />
+if ($action == &lsquo;test&rsquo;){<br />
+exit(API_RETURN_SUCCEED);<br />
+}</p>
+<p>4、写完这样的代码后，去ucenter管理中心看一下应用列表，是不是通讯成功了？</p>
+<p>其实那个通讯成功，就是发送了一个 action = test过来。所以当返回1的时候就直接成功了。</p>
+<p>不过，由于exit();函数自身的状态，如果参数是字符串，则会直接输出，而如果参数是整数，则仅仅用来表示退出程序，而整数则代表了error code。</p>
+<p>If&nbsp;<code>status</code> is an&nbsp;<a href="http://www.ucapi.com/wiki/2009/09/connect-ucenter/language.types.integer.html"><strong>integer</strong></a>, that value will also be used as the exit status. Exit statuses should be in the range 0 to 254, the exit status 255 is reserved by PHP and shall not be used. The status 0 is used to terminate the program successfully.</p>
+<p>这时候，你就会发现，你必须得使用exit(&ldquo;1&Prime;);才会真正的输出1。【当然，这是PHP的基础，与通信问题不大，在这里提出来，只是为了防止你明明写了exit(1)，却不会输出而在那里拼命调试】</p>
+<p>OK，到现在为止，一个简单的通讯就完成了。如果你需要更多的功能，可以参考一下server究竟提供了哪些服务，然后写上针对性的代码和判断就可以了。</p>
+<p>本文没图，但我相信，说的应该够明白了吧？</p>

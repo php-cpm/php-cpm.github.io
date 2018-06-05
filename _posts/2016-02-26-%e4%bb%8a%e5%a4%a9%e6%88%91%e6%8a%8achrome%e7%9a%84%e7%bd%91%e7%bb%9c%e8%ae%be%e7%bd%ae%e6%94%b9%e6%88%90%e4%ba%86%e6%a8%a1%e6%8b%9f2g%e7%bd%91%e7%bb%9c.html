@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: 今天我把chrome的网络设置改成了模拟2G网络
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1035
+wordpress_url: http://oadoc360.com/?p=1035
+date: '2016-02-26 11:55:13 +0800'
+date_gmt: '2016-02-26 03:55:13 +0800'
+categories:
+- 前端
+tags: []
+comments: []
+---
+<p><a href="http://oadoc360.com/%e4%bb%8a%e5%a4%a9%e6%88%91%e6%8a%8achrome%e7%9a%84%e7%bd%91%e7%bb%9c%e8%ae%be%e7%bd%ae%e6%94%b9%e6%88%90%e4%ba%86%e6%a8%a1%e6%8b%9f2g%e7%bd%91%e7%bb%9c/qq20160226-1/" rel="attachment wp-att-1037"><img src="http://oadoc360.com/wp-content/uploads/2016/02/QQ20160226-1.png" alt="今天我把chrome的网络设置改成了模拟2G网络" width="629" height="895" class="alignleft size-full wp-image-1037" /></a></p>
+<p>今天我把chrome的网络设置改成了模拟2G网络</p>
+<p>大家好，我是一个php web开发人员，我今天开发效率很低，因为我的chrome老提示我『正在等待可用的套接字』。</p>
+<p>页面打开极其缓慢，这还怎么愉快的写bug，不，debug。直到我忍无可忍，我Google了一下，原来浏览器对一个网址同时最多发起6个请求链接，可以通过chrome://net-internals/#sockets  实时查看，似乎这个设置是硬性设置，无法修改，我陷入了困境。</p>
+<p>万万没想到我最后还是解决了这个问题，我发现关了开发者工具打开速度就恢复正常了，然后仔细看了下面板的参数才想起之前把网络设置改成了模拟2G网络</p>

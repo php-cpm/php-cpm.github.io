@@ -1,0 +1,41 @@
+---
+layout: post
+status: publish
+published: true
+title: windows安装vagrant 以及 laravel homestead[2]
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 948
+wordpress_url: http://oadoc360.com/?p=948
+date: '2015-05-12 09:29:21 +0800'
+date_gmt: '2015-05-12 01:29:21 +0800'
+categories:
+- lumen
+tags: []
+comments: []
+---
+<p>安装 Homestead<br />
+由于windows下和linux命令不尽相同<br />
+实际上要做的是在你的用户目录下新建一个.homestead目录<br />
+然后把Homestead/src/stubs目录的文件全拷贝过去即可<br />
+配置文件Homestrad.yaml参考如下</p>
+<p>ip: "192.168.10.10"<br />
+memory: 2048<br />
+cpus: 1<br />
+provider: virtualbox</p>
+<p>authorize: C:\Users\zy\Homestead\test.key.pub</p>
+<p>keys:<br />
+    - C:\Users\zy\Homestead\test.key</p>
+<p>folders:<br />
+    - map: C:\Users\zy\Homestead\test<br />
+      to: /home/vagrant/Code</p>
+<p>sites:<br />
+    - map: homestead.app<br />
+      to: /home/vagrant/Code/Laravel/public</p>
+<p>databases:<br />
+    - homestead</p>

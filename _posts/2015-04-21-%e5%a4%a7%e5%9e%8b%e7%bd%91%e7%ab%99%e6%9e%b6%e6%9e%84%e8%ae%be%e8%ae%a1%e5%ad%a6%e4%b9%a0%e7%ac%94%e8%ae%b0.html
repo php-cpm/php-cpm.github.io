@@ -1,0 +1,66 @@
+---
+layout: post
+status: publish
+published: true
+title: 大型网站架构设计学习笔记
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 937
+wordpress_url: http://oadoc360.com/?p=937
+date: '2015-04-21 09:40:33 +0800'
+date_gmt: '2015-04-21 01:40:33 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>最近买了本《大型网站系统与JAVA中间件实践》曾宪杰。<br />
+做了这么多年php，为了学习技术，还是只能找java的书籍，不得不说是php开发者的悲哀。<br />
+分布式系统基础知识<br />
+计算机的五要素CPU、内外存、输入输出设备，分布式系统要逐一对应<br />
+线程与进程的执行模式<br />
+阿姆达尔定律：多核<br />
+互不通信的多线程、共享容器协同的多线程、通过事件协同的多线程、多进程</p>
+<p>OSI模型、TCP/IP模型<br />
+网络IO实现方式 BIO、NIO、AIO</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</p>
+<p>交易网站基本三部分业务功能：用户、商品、交易<br />
+APP server<br />
+|<br />
+*<br />
+APP server + DB server<br />
+|<br />
+*<br />
+APP server * N + DB server<br />
+|<br />
+*<br />
+负载均衡 + APP server *N + DB server +处理session（sitcky、同步、集中存储、cookie based<br />
+|<br />
+*<br />
+数据库读写分离，增加读库<br />
+|<br />
+*<br />
+增加搜索引擎<br />
+|<br />
+*<br />
+增加缓存（页面缓存、数据缓存）<br />
+|<br />
+*<br />
+引入分布式存储系统<br />
+|<br />
+*<br />
+专库专用、数据垂直拆分<br />
+|<br />
+*<br />
+单机数据水平拆分<br />
+|<br />
+*<br />
+应用拆分<br />
+按功能拆分<br />
+服务化<br />
+中间件</p>

@@ -1,0 +1,31 @@
+---
+layout: post
+status: publish
+published: true
+title: "image/png 和 image/x-png 有哪些区别?"
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1055
+wordpress_url: http://oadoc360.com/?p=1055
+date: '2016-03-21 12:55:17 +0800'
+date_gmt: '2016-03-21 04:55:17 +0800'
+categories:
+- PHP
+tags: []
+comments: []
+---
+<p>referer: http://stackoverflow.com/questions/2086374/what-is-the-difference-between-image-png-and-image-x-png<br />
+前缀 x- 是非标准的 MIME 类型 (例如：未在 IANA注册). 所以可以认为 image/x-png 是 PNG 类型未被标准化之前使用的</p>
+<blockquote><p>6.3. New Content-Transfer-Encodings</p>
+<p>Implementors may, if necessary, define private Content-Transfer-Encoding values, but must use an x-token, which is a name prefixed by &ldquo;X-&rdquo;, to indicate its non-standard status, e. g., &ldquo;Content-Transfer-Encoding: x-my-new-encoding&rdquo;. Additional standardized Content-Transfer-Encoding values must be specified by a standards-track RFC. The requirements such specifications must meet are given in RFC 2048. As such, all content-transfer-encoding namespace except that beginning with &ldquo;X-&rdquo; is explicitly reserved to the IETF for future use.</p></blockquote>
+<p>&mdash;RFC 2045 &mdash; Multipurpose Internet Mail Extensions, Section 6.3<br />
+This is also documented in the PNG specification. See FalseVinylShrub's answer.</p>
+<p>根据W3C关于PNG的标准 http://www.w3.org/TR/PNG/#A-Media-type</p>
+<p> "image/png" 是PNG格式网络媒体类型的 MIME 类型 [RFC-2045], [RFC-2048].同时也建议支持识别 MIME 类型 "image/x-png".<br />
+所以, 如果你打算上传或是提供一个 PNG 图片, 该用'image/png'. 另外, 处理上传后文件等其他情况应该两种 MIME 类型都支持.</p>
+<p>由于IE前些年一直在用"image/x-png"上传，所以造成了一些开发上的困扰。</p>

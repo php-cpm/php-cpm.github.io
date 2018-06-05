@@ -1,0 +1,38 @@
+---
+layout: post
+status: publish
+published: true
+title: 为日常用Fedora进行优化
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 251
+wordpress_url: http://zouyi.ixiezi.com/?p=251
+date: '2010-01-12 20:47:56 +0800'
+date_gmt: '2010-01-12 12:47:56 +0800'
+categories:
+- linux应用
+tags: []
+comments: []
+---
+<p>一、用easylife优化。http://easylifeproject.org/<br />
+<img src="http://easylifeproject.org/img/download.png" alt="It's For Fedora 12" /><br />
+比较遗憾的是此优化工具为了保证文件准确性经常要从他提供的地址下载，而他的服务器都在国外，用WGET下载速度也只有几KB/S而已。可优化选项只有那么几个，我用了KDE桌面，几个GNOME的选项勾上不起作用。昨晚开始宿舍晚上不断电了，所以乘着晚上网速好把几个觉得有必要用的选项装上了。NV的显卡驱动一直没敢装，Fedora12默认集成的NV显卡驱动使得显示效果大幅提升却不支持3D，官方驱动直接装上就进不了桌面了，这个问题暂时不敢尝试。。。。总之经历一个晚上的安装，Rhythmbox可以放mp3了，电影播放器也可以放多种格式了，非常方便，安装了vlc，看电影也不再愁了。<br />
+二、PPStream。http://linuxtoy.org/archives/how-to-setup-ppstream-on-fedora.html<br />
+根据LT的教程装完了后电影播放器侧边栏就一直显示更新分类列表中，可能pps的官方都忘了他们还放出国linux版的文件吧？<br />
+后来看了看文章后面的评论又去谷歌了一下<a href="http://code.google.com/p/gmlive/">GMLive</a><img src="http://www.bjgug.org/sites/default/files/2009-08-31-092930_639x410_scrot.png" alt="" /></p>
+<p>和<a href="http://code.google.com/p/qsopcast/">qsopcast</a>。挺好，都有google code主页，找起来挺方便。一会再试试。</p>
+<p>先看GMlive，是个国人团队制作的前端，有人做过rpm打包，但是没有Fedora12的，F11的和12不兼容。<br />
+去他们的Google code页下载源码编译<br />
+＃./autogen.sh<br />
+＃make<br />
+＃make install<br />
+<strong>出错了</strong><br />
+checking for PACKAGE... configure: error: Package requirements (gtkmm-2.4 >= 2.6.0 libxml-2.0 >= 2.6.0) were not met:</p>
+<p>No package 'gtkmm-2.4' found<br />
+这句话我是真没看懂。。。。研究半天gtkmm24默认安装了，又安了gtkmm-utils也不行，只好作罢。<br />
+三、美化，我对此道一向不很专注，大概认为简朴最高吧，换了张故剑奇谭的最新壁纸就满足了，KDE本省已经很漂亮很完善了。</p>

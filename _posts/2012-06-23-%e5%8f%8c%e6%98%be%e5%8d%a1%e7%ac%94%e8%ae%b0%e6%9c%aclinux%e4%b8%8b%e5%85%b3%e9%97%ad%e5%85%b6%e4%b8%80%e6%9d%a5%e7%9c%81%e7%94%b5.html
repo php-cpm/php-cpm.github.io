@@ -1,0 +1,111 @@
+---
+layout: post
+status: publish
+published: true
+title: 双显卡笔记本linux下关闭其一来省电
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 574
+wordpress_url: http://zouyi.rayyn.net/blog/?p=574
+date: '2012-06-23 11:01:27 +0800'
+date_gmt: '2012-06-23 03:01:27 +0800'
+categories:
+- 未分类
+tags: []
+comments:
+- id: 43
+  author: Rayyn
+  author_email: rayyn1988@gmail.com
+  author_url: http://rayyn.net
+  date: '2012-08-17 00:18:41 +0800'
+  date_gmt: '2012-08-16 16:18:41 +0800'
+  content: 有钱淫啊。。。。
+---
+<p>昨日果断入手了 lenovo Y470p i5 AMD显卡版，装上了linux deepin</p>
+<p>由于有集成显卡和独立显卡，而默认情况下linux根据bios设置来使用其中一块显卡而两块却同时供电，造成极大的耗电，也造成了散热不好，网上早已经有解决方案了。</p>
+<p>其中需要注意的是ubuntu下root密码为空，需要执行su命令时请输入sudo su即可进入root用户</p>
+<p>新建文件</p>
+<blockquote><p>/etc/initramfs-tools/scripts/local-top/hybrid_boot_options</p></blockquote>
+<p>代码</p>
+<pre>#
+# Standard initramfs preamble
+#
+prereqs()
+{
+:
+}
+
+case $1 in
+prereqs)
+        prereqs
+        exit 0
+        ;;
+esac
+
+# source for log_*_msg() functions, see LP: #272301
+. /scripts/functions
+
+#
+# Helper functions
+#
+message()
+{
+        if [ -x /bin/plymouth ] &amp;&amp; plymouth --ping; then
+                plymouth message --text="$@"
+        elif [ -p /dev/.initramfs/usplash_outfifo ] &amp;&amp; [ -x /sbin/usplash_write ]; then
+                usplash_write "TEXT-URGENT $@"
+        else
+                echo "$@" >&amp;2
+        fi
+        return 0
+}
+
+run_switcheroo()
+{
+        local hybridopts
+        hybridopts="$1"
+
+        if [ -z "$hybridopts" ]; then
+                return 1
+        fi
+
+        local IFS=" ,"
+        for x in $hybridopts; do
+                message "Switching hybrid graphics to $x"
+                echo $x > /sys/kernel/debug/vgaswitcheroo/switch
+        done
+        return 0
+}
+
+#
+# Begin real processing
+#
+
+# Do we have any kernel boot arguments?
+for opt in $(cat /proc/cmdline); do
+        case $opt in
+        hybridopts=*)
+                run_switcheroo "${opt#hybridopts=}"
+                ;;
+        esac
+done
+
+exit 0</pre>
+<p>设置权限，更新</p>
+<pre>chmod +x /etc/initramfs-tools/scripts/local-top/hybrid_boot_options
+initramfs-tools -c -k all</pre>
+<p>如果系统没有initramfs-tools命令则使用</p>
+<pre>update-initramfs -c -k all</pre>
+<p>修改/etc/default/grub，我是查找GRUB_CMDLINE_LINUX_DEFAULT并替换这一行的</p>
+<pre>GRUB_CMDLINE_LINUX_DEFAULT="quiet splash modeset=1 hybridopts=ON,IGD,OFF"</pre>
+<p>保存后</p>
+<pre>update-grub</pre>
+<p>重启看看有没有问题</p>
+<p>参考网址：<br />
+http://linuxtoy.org/archives/how-to-use-vga-switcheroo-disable-video-card-linux-kms.html<br />
+https://help.ubuntu.com/community/HybridGraphics#Script_for_use_during_bootup</p>

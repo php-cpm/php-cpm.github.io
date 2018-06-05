@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: 批量从服务器执行命令脚本
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1021
+wordpress_url: http://oadoc360.com/?p=1021
+date: '2015-12-27 08:42:57 +0800'
+date_gmt: '2015-12-27 00:42:57 +0800'
+categories:
+- shell
+tags: []
+comments: []
+---
+<p>#! /bin/bash</p></p>
+<p>machine_list=serverList</p>
+<p>lineno=`cat $machine_list |wc -l`;</p>
+<p>for((i=1; i<=lineno; i++)) {<br>   line=`sed -n "$i p" $machine_list`;<br>machine=`echo $line | gawk -F" " '{ print $1 }'`;<br>   path='/var/log/httpd/logs/lumen.log';<br>   file=`echo $path`;<br>   echo "INFO: "$file"@"$machine;<br>  ssh $machine "df -h;echo ;echo";<br>}<br>exit 0;</p>
+<p><br>原理就是循环一个ip列表<br>ssh并执行命令</p>

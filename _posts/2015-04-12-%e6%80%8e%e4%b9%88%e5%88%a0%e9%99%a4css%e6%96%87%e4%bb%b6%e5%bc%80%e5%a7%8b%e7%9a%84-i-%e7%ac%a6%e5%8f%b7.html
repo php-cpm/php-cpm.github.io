@@ -1,0 +1,26 @@
+---
+layout: post
+status: publish
+published: true
+title: 怎么删除CSS文件开始的 ï»¿ 符号
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 928
+wordpress_url: http://oadoc360.com/?p=928
+date: '2015-04-12 16:00:32 +0800'
+date_gmt: '2015-04-12 08:00:32 +0800'
+categories:
+- PHP
+tags: []
+comments: []
+---
+<p>参考： <a href='http://stackoverflow.com/questions/3255993/how-do-i-remove-%C3%AF-from-the-beginning-of-a-file'>php - How do I remove &iuml;&raquo;&iquest; from the beginning of a file? - Stack Overflow</a>.</p>
+<p>How do I remove &iuml;&raquo;&iquest; from the beginning of a file?</p>
+<p>在做文件合并的时候发现css文件合并后总是不对，于是首先把换行压缩为空格的代码屏蔽，发现仍有部分样式不对，用w3c css验证工具发现某行样式定义前有乱码，表现为&iuml;&raquo;&iquest;#topNav {}</p>
+<p>http://jigsaw.w3.org/css-validator/validator</p>
+<p>通过查询发现是utf8文件的bom头在作怪，把源文件的bom头去掉就好了</p>

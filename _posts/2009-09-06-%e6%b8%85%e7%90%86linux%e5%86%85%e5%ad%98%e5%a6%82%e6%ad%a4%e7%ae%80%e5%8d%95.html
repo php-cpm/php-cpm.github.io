@@ -1,0 +1,28 @@
+---
+layout: post
+status: publish
+published: true
+title: 清理Linux内存如此简单
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 151
+wordpress_url: http://zouyi.ixiezi.com/?p=151
+date: '2009-09-06 17:49:56 +0800'
+date_gmt: '2009-09-06 09:49:56 +0800'
+categories:
+- linux应用
+tags:
+- LINUX
+comments: []
+---
+<p>#echo 1 > /proc/sys/vm/drop_caches</p>
+<p>#echo 2 > /proc/sys/vm/drop_caches</p>
+<p>看了一下，能够有效释放内存，默认是0<br />
+所以我操作完后又加了条命令<br />
+#echo 0 > /proc/sys/vm/drop_caches<br />
+是否会影响稳定性有待观察</p>

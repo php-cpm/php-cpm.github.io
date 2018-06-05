@@ -1,0 +1,29 @@
+---
+layout: post
+status: publish
+published: true
+title: Incompatible implementation of send() in Client / ClientInterface (phpunit)?
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 992
+wordpress_url: http://oadoc360.com/?p=992
+date: '2015-09-28 10:11:05 +0800'
+date_gmt: '2015-09-28 02:11:05 +0800'
+categories:
+- 未分类
+- PHP
+tags: []
+comments: []
+---
+<p>Incompatible implementation of send() in Client / ClientInterface (phpunit)?<br>开发环境 lumen<br>在phpunit执行测试时报错</p>
+<p>PHP Fatal error: Declaration of GuzzleHttp\Client::send() must be compatible with GuzzleHttp\ClientInterface::send(GuzzleHttp\Message\RequestInterface $request) in /Users/michael/Code/contrib/guzzle/src/Client.php on line 26</p>
+<p>https://github.com/guzzle/guzzle/issues/1214</p>
+<p>找到报错的解决帖</p>
+<p>发现自己的项目版本挺新的</p>
+<p>于是在autoload加上加载文件的文件名输出</p>
+<p>发现加载了global 文件<br>框架安装的时候是全局安装的<br>composer update却只更新了本项目<br>找到global的composer。json文件，把phpunit之外的项目都删掉，global update  解决问题</p>

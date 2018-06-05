@@ -1,0 +1,69 @@
+---
+layout: post
+status: publish
+published: true
+title: js把字符串类型转换成数字型
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 509
+wordpress_url: http://zouyi.rayyn.net/?p=509
+date: '2010-12-21 15:32:14 +0800'
+date_gmt: '2010-12-21 07:32:14 +0800'
+categories:
+- WEB技术
+tags: []
+comments: []
+---
+<div id="_mcePaste">
+<div id="_mcePaste"><script></div>
+<div id="_mcePaste">function changeText()</div>
+<div id="_mcePaste">{</div>
+<div id="_mcePaste">var x=document.getElementById("tid");</div>
+<div id="_mcePaste">var g = document.getElementById("g");</div>
+<div id="_mcePaste">var go = x.options[x.selectedIndex].value;</div>
+<div id="_mcePaste">switch (Number(go)){</div>
+<div id="_mcePaste">case 0:</div>
+<div id="_mcePaste">g.value = "0";</div>
+<div id="_mcePaste">break;<span style="white-space: pre;"> </span></div>
+<div id="_mcePaste">case 1:</div>
+<div id="_mcePaste">g.value = "1";</div>
+<div id="_mcePaste">break;<span style="white-space: pre;"> </span></div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span> case 2:</div>
+<div id="_mcePaste">g.value = "2";</div>
+<div id="_mcePaste">break;<span style="white-space: pre;"> </span></div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span> case 3:</div>
+<div id="_mcePaste">g.value = "3";</div>
+<div id="_mcePaste">break;<span style="white-space: pre;"> </span></div>
+<div id="_mcePaste">default:</div>
+<div id="_mcePaste">g.value = "de";<span style="white-space: pre;"> </span></div>
+<div id="_mcePaste">}</div>
+<div id="_mcePaste">}</div>
+<div id="_mcePaste"></div>
+<div id="_mcePaste"></script></div>
+<div id="_mcePaste"></div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span><br />
+<select name="tid" id="tid" class="BigSelect" onchange="changeText()" ></div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span><br />
+<option value="0">--请选择类型--</option>
+</div>
+<div id="_mcePaste"></div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span><br />
+<option value="1">abc</option>
+</div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span><br />
+<option value="2">abc2</option>
+</div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span><br />
+<option value="3">a3bc</option>
+</div>
+<div id="_mcePaste"><input type="text" id="g" value="a"></div>
+<div id="_mcePaste"><span style="white-space: pre;"> </span></select>
+</div>
+</div>
+<div></div>
+<div>如上代码中从下拉列表的选项读出值类型是字符串，无法被switch使用，故加上类型转换。</div>

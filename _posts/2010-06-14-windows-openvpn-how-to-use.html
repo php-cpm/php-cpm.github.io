@@ -1,0 +1,189 @@
+---
+layout: post
+status: publish
+published: true
+title: "【转】windows 下 openvpn 使用小结"
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 363
+wordpress_url: http://zouyi.rayyn.net/?p=363
+date: '2010-06-14 08:11:45 +0800'
+date_gmt: '2010-06-14 00:11:45 +0800'
+categories:
+- WEB技术
+tags: []
+comments:
+- id: 24
+  author: Rayyn
+  author_email: rayyn1988@gmail.com
+  author_url: http://rayyn.net
+  date: '2010-06-27 09:25:12 +0800'
+  date_gmt: '2010-06-27 01:25:12 +0800'
+  content: Win也需要自己配置NAT
+---
+<p><strong>由于03自带的vpn服务器改端口麻烦（不知道能不能改...），而且它只支持tcp连接，所以如果碰到VPN要用指定端口连接，或者想 用win做linux的vpn服务器的话，openvpn是个不错的选择。</strong><strong>用了也有一段时间了，除了IPV6问题没解 决外，感觉一切还在掌握之中。简单小结下过程。可能somebody会需要...</strong></p>
+<p><strong>1. 服务端</strong><br />
+<strong>环境：win2003+openvpn2.1.1</strong><br />
+（1）安装openvpn，最好默认安装，否则后面配置时注意路径。<br />
+（2）到安装目录下的easy-rsa文件夹下，用文本编辑器打开vars.bat.sample文件，根据需要修改最后几行(其实也可以不改，就是为了 配置过程中输入的东西少点)：</p>
+<blockquote>
+<div>
+<div id="code0">
+<ol>
+<li>set KEY_COUNTRY=CN</li>
+<li>set KEY_PROVINCE=GD</li>
+<li>set KEY_CITY=FS</li>
+<li>set KEY_ORG=NCIST</li>
+<li>set KEY_EMAIL=a@b.com</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code0'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>（3）打开cmd命令行窗口同样进入到安装目录下的easy-rsa文件夹，分别执行下面三个命令：</p>
+<blockquote>
+<div>
+<div id="code1">
+<ol>
+<li>init-config</li>
+<li>vars</li>
+<li>clean-all</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code1'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>上面是初始化工作，以后，在进行证书制作工作时，仍旧需要进行初始化，但只需要进入openvpneasy-rsa目录，运行vars就 可以了，不需要上面那些步骤了。<br />
+（4）生成根证书，分别执行命令：</p>
+<blockquote>
+<div>
+<div id="code2">
+<ol>
+<li>build-ca</li>
+<li>build-dh</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code2'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>(5)生成服务端密钥:</p>
+<blockquote>
+<div>
+<div id="code3">
+<ol>
+<li>build-key-server server</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code3'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>(6）生成客户端密钥</p>
+<blockquote>
+<div>
+<div id="code4">
+<ol>
+<li>build-key client1</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code4'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>build-key client2 可以继续配置第二个VPN客户端密钥<br />
+以上三步执行过程中需要输入一些参数，大部分只需按要求输入即可。其中一些是需要注意的：</p>
+<ul>
+<li>common  name，出现三次，据说要求每次输入的都不一样，至于都一样行不行我没试，那就随便输入三个不一样的参数。</li>
+</ul>
+<ul>
+<li>A  challenge password []:&nbsp;&nbsp;An optional company name []: 这两个都可以留空</li>
+</ul>
+<p>将生成的keys文件夹内的ca.crt,dh1024.pem,server.crt,server.key,ta.key复制到  OpenVPNconfig目录下</p>
+<p>（7）配置文件</p>
+<blockquote>
+<div>
+<div id="code5">
+<ol>
+<li>port 60000</li>
+<li>proto udp //如果不能连接换成tcp</li>
+<li>dev tap</li>
+<li>//下面四项注意路径，如果不是放在config目录下请用绝对路径</li>
+<li>ca ca.crt</li>
+<li>cert server.crt</li>
+<li>key server.key</li>
+<li>dh dh1024.pem</li>
+<li>server 192.168.10.0 255.255.255.0</li>
+<li>ifconfig-pool-persist ipp.txt</li>
+<li>push "route 0.0.0.0 0.0.0.0"</li>
+<li>push "redirect-gateway def1 bypass-dhcp"</li>
+<li>push "dhcp-option DNS 192.168.175.5" //这个根据实际自行修改</li>
+<li>keepalive 20 120</li>
+<li>comp-lzo</li>
+<li>persist-key</li>
+<li>persist-tun</li>
+<li>status openvpn-status.log</li>
+<li>verb 3</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code5'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>要配置的大概就是这些，将配置文件另存为.ovpn文件，并保存到openvpnconfig目录下即可。如果需要通过服务器端连接外网，还需配置 win2003自带的vpn服务器，在nat/防火墙那里把本地连接接口添加进去。</p>
+<p><strong>2.客户端</strong><br />
+客户端安装openvpn后，只需把服务端生成的ca.crt client.crt  client.key三个文件拷到openvpnconfig目录下，再建一个配置文件即可。<br />
+配置文件：</p>
+<blockquote>
+<div>
+<div id="code6">
+<ol>
+<li>client</li>
+<li>dev tap</li>
+<li>proto udp</li>
+<li>remote 10.1.x.x 60000 //服务器ip 端口</li>
+<li>resolv-retry infinite</li>
+<li>nobind</li>
+<li>persist-key</li>
+<li>persist-tun</li>
+<li>ca ca.crt</li>
+<li>cert client.crt</li>
+<li>key client.key</li>
+<li>ns-cert-type server</li>
+<li>comp-lzo</li>
+<li>verb 3</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code6'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>大概就是这个样吧...<br />
+然后还有些小技巧：<br />
+（1）让openvpn随系统自启:编个批处理，写入以下代码：</p>
+<blockquote>
+<div>
+<div id="code7">
+<ol>
+<li>net start openvpnservice</li>
+<li>openvpn-gui-1.0.3 --connect client1.ovpn</li>
+<li>pause</li>
+</ol>
+</div>
+<p><em onclick="copycode($('code7'));"><br />
+</em></p>
+</div>
+</blockquote>
+<p>其中：<br />
+net start openvpnservice 是启动openvpn的系统服务。<br />
+openvpn-gui-1.0.3&nbsp;&nbsp;--connect  client.ovpn是用命令行方式连接openvpn，这里要注意路径问题：一是openvpn-gui-1.0.3，这个文件在 OpenVPNbin目录下，如果出现不是有效命令，请在系统环境变量里把&ldquo;C:Program  FilesOpenVPNbin&rdquo;添加进去；二是client.ovpn配置文件的路径，如果配置文件不是在config根目录，请用绝对路径。</p>
+<p>另：转份配置文件的解析，可以琢磨下：</p>
+<p><a rel="attachment wp-att-366" href="http://zouyi.rayyn.net/2010/06/14/windows-openvpn-how-to-use/openvpn%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6%e8%af%a6%e8%a7%a3/">openvpn配置文件详解</a></p>
+<p>转自星期三~</p>

@@ -1,0 +1,40 @@
+---
+layout: post
+status: publish
+published: true
+title: 搭建自己的公开CentOS源
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 973
+wordpress_url: http://oadoc360.com/?p=973
+date: '2015-08-02 23:11:54 +0800'
+date_gmt: '2015-08-02 15:11:54 +0800'
+categories:
+- 未分类
+- linux应用
+tags: []
+comments: []
+---
+<p>背景：公司的网络实在是有够变态的，有层http代理，没法好好上网，装个linux做实验的时候各种软件下不了，不太懂运维，偶然想到去看局域网里的linux服务器是怎么更新的，果然挖出一个内网的yum源，顺便就想到自己搭建一套http源，从公网里定期同步更新一下，用到的时候就很爽了。</p>
+<p>上手：</p>
+<p>首先呢，把这个服务器扔到虚拟机里了，远程操作和扩展硬盘会比较容易一些，而且平时挂在那也不会费太多资源。</p>
+<p>安装了Centos 6.5</p>
+<p>分配两个网卡（一个自动，一个对接局域网）和两块硬盘，其中一个硬盘挂载到/var</p>
+<p>找到了国内的高校源 bit、ustc</p>
+<p>http://<a href="http://mirror.bit.edu.cn/web/">mirror.bit.edu.cn/web/</a></p>
+<p><a href="http://mirrors.ustc.edu.cn/">http://mirrors.ustc.edu.cn/</a></p>
+<p>他们都提供了rsync服务</p>
+<p>在linux上安装rsync客户端</p>
+<p>我把目录放在/var/www/pub下</p>
+<p>依次创建目录层级，只同步我需要的源可以有效减少磁盘占用，不然一个源同步下来我的硬盘就报废了</p>
+<p>rsync -avrtH rsync://mirrors.ustc.edu.cn/centos/6/ /var/www/pub/centos/6/<br/> rsync -avrtH rsync://mirrors.ustc.edu.cn/rpmfusion/free/el/ /var/www/pub/rpmfusion/free/el/<br/> rsync -avrtH rsync://mirrors.ustc.edu.cn/rpmfusion/nonfree/el/ /var/www/pub/rpmfusion/nonfree/el/<br/> rsync -avrtH rsync://mirrors.ustc.edu.cn/epel/6Server/x86_64/ /var/www/pub/epel/6Server/x86_64/</p>
+<p>同步了几天，同步完成后看了一下虚拟机的硬盘文件还不到100GB，比预想的小很多，分配磁盘时专门划出了200GB呢。</p>
+<p>安装apache&nbsp; yum install -y httpd</p>
+<p>关闭selinux&nbsp; vim /etc/selinux/config selinux=disabled</p>
+<p>最后有个软件createrepo可以指定目录生成索引，大家自行百度就知道了</p>
+<div class="PoweredByWebStory" style="margin-top:15px;margin-bottom:10px"><a target="_blank" href="http://sns.juziyue.com/webinvite.php?u=94310"></a>&nbsp;<a target="_blank" href="http://sns.juziyue.com/webinvite.php?u=94310">菊子曰</a>：专业的<a target="_blank" href="http://sns.juziyue.com">博客营销工具</a></div>

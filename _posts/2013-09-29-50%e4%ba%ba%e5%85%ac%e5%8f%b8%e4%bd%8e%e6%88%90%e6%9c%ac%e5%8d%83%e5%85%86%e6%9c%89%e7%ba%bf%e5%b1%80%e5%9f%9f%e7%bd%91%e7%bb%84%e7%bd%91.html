@@ -1,0 +1,49 @@
+---
+layout: post
+status: publish
+published: true
+title: 50人公司低成本千兆有线局域网组网
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 786
+wordpress_url: http://oadoc360.com/?p=786
+date: '2013-09-29 09:32:21 +0800'
+date_gmt: '2013-09-29 01:32:21 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>&nbsp;</p>
+<p>场景：B公司是在A公司同城的郊区研发基地，所有员工要通过互联网连接A公司的vpn接入内网办公。</p>
+<p>B公司的规模 从10人增加到20人，预计年内扩充到50人。</p>
+<p>对于10人的公司，一个无线路由器，一根10M宽带即可解决大家同时上网的问题。</p>
+<p>初期的网络环境是</p>
+<p><strong>TP-LINK TL-WVR450G 450M无线企业VPN路由器 ￥539.00</strong></p>
+<p><strong>当地的二级网络运营商提供的宽带业务 6M 500元/年</strong></p>
+<p>无线网络非常便捷，室内无需布线。</p>
+<p>当人数增加到20人时就出现问题了。</p>
+<p>我们知道一个无线路由器一般能承载20人同时访问已经是平民价格中很好的了。</p>
+<p>这个时候20人都在上网就会造成网络极度不稳定，且每人平均分配的带宽也变少了。</p>
+<p>运营商也许还有检测访问网络机器数量的策略，导致间歇性断网。</p>
+<p>为了保证稳定再次接入一根宽带，并按人分成两部分使用不同网络。</p>
+<p>由于两个宽带获取地址在同一个网段是不允许的，此次额外采购了</p>
+<p><strong>艾泰（UTT）进取 520W ￥649.00</strong></p>
+<p>但在实际运行中有些员工间传文件就得在两个网之间切换，造成了无线网的不稳定，且发现该楼宇无线信号太多太杂影响了无线的稳定性。</p>
+<p>为了保证正常办公，必须接入有线局域网。</p>
+<p><strong>腾达（TENDA）24口全千兆以太网交换机 TEG1024G(S) ￥499.00</strong></p>
+<p>六类线、六类水晶头不解释</p>
+<p>为了两个网络带宽都利用上，组网如下</p>
+<p><strong>TP-LINK&nbsp; wan1 - 宽带1</strong></p>
+<p><strong>UTT wan1 - 宽带2</strong></p>
+<p><strong>TP-LINK&nbsp; lan - UTT wan2</strong></p>
+<p><strong>UTT lan&nbsp; - TENDA lan1</strong></p>
+<p><strong>TENDA lans - 各个机器</strong></p>
+<p>&nbsp;</p>
+<p><50人网络时按需采购一台1000M交换机即可</p>
+<p>>50人就得考虑上机柜统一管理了，已经不属于本文讨论范围</p>

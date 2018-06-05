@@ -1,0 +1,28 @@
+---
+layout: post
+status: publish
+published: true
+title: Mac下MySql卸载方法
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 994
+wordpress_url: http://oadoc360.com/?p=994
+date: '2015-09-28 16:04:07 +0800'
+date_gmt: '2015-09-28 08:04:07 +0800'
+categories:
+- 未分类
+- mysql
+- MACOS
+tags: []
+comments: []
+---
+<h1><a href="http://hearrain.com/2011/01/495" title="Permanent Link to Mac下MySql卸载方法">Mac下MySql卸载方法</a></h1>
+<p>mac下mysql的DMG格式安装内有安装文件，却没有卸载文件&hellip;&hellip;很郁闷的事。<br>网上搜了一下，发现给的方法原来得手动去删。<br>很多文章记述要删的文件不完整，后来在<a href="http://stackoverflow.com/questions/1436425/how-do-you-uninstall-mysql-from-mac-os-x">stackoverflow</a>这里发现了一个遗漏的地方，所以将完整版记述在这里，以供查阅。<br>先停止所有mysql有关进程。</p>
+<p>最后这条很多文章都丢了，切记切记。</p>
+<p>&nbsp;</p>
+<p>[code language="plain"]sudo rm /usr/local/mysql sudo rm -rf /usr/local/mysql*sudo rm -rf /Library/StartupItems/MySQLCOM sudo rm -rf /Library/PreferencePanes/My*vim /etc/hostconfig and removed the line MYSQLCOM=-YES-rm -rf ~/Library/PreferencePanes/My*sudo rm -rf /Library/Receipts/mysql*sudo rm -rf /Library/Receipts/MySQL*sudo rm -rf /var/db/receipts/com.mysql.*[/code]</p>

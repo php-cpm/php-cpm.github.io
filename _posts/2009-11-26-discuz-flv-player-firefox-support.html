@@ -1,0 +1,56 @@
+---
+layout: post
+status: publish
+published: true
+title: dz用flv播放器对FF的支持
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 208
+wordpress_url: http://zouyi.ixiezi.com/?p=208
+date: '2009-11-26 21:46:07 +0800'
+date_gmt: '2009-11-26 13:46:07 +0800'
+categories:
+- WEB技术
+tags:
+- video
+comments:
+- id: 8
+  author: veapon
+  author_email: veapon@qq.com
+  author_url: http://veapon.cn
+  date: '2009-11-27 17:16:03 +0800'
+  date_gmt: '2009-11-27 09:16:03 +0800'
+  content: |-
+    你看下这个行不行：http://www.longtailvideo.com/players/jw-flv-player/
+    当它自定义插件那样来用。
+- id: 9
+  author: 夜行者萝莉控
+  author_email: zoutommy@gmail.com
+  author_url: http://zouyi.ixiezi.com
+  date: '2009-11-27 18:40:21 +0800'
+  date_gmt: '2009-11-27 10:40:21 +0800'
+  content: 有空了试试~ ~
+- id: 10
+  author: 仁心博客
+  author_email: 24066908@qq.com
+  author_url: http://www.9sh.net
+  date: '2009-12-01 20:38:25 +0800'
+  date_gmt: '2009-12-01 12:38:25 +0800'
+  content: 有时间再去试试
+---
+<p>2010/01/30追 dz7.2 have a video player that support lots of video types</p>
+<p>以flv dz为关键词搜索<a href="http://www.discuz.net/viewthread.php?tid=820855">这个帖子</a>排名非常靠前，所以我基本没考虑过它的代码问题，但是自己维护的discuz论坛上按照他的方法却无法在firefox下显示，而且即使在IE下也不支持中文路径。<br />
+半年多了，html标记之类的知识也学了不少，简单看了一下它的代码，发现少了一个&ldquo;=&rdquo;号。见下面代码。</p>
+<blockquote><p><embed src="http://*******************/peach.swf?<span style="color: #ff0000">vcastr_file{1}</span>&amp;IsShowTime=1" allowFullScreen="true" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="600" height="450"></p></blockquote>
+<p>红色代码部分改为</p>
+<blockquote>
+<p style="text-align: left">vcastr_file<span style="color: #ff0000">=</span>{1}</p>
+</blockquote>
+<p>即可。</p>
+<p>加上后论坛在火狐下可以正常观看了。而且地址中可以包含中文字符。但又发现新的问题，由于用户是把视频文件上传到ftp后在论坛引用，而ftp由于用户很多所以做了每IP的2线程限制，如果用户正在用迅雷之类 的多线程下载器时打开带有视频的帖子，或者一个帖子里有多个视频就会弹出ftp错误信息，而且是不断弹出！！！这个问题我参考了adobe的flash和dw资料http://kb2.adobe.com/cps/415/tn_4150.html无解，由于完全没有头绪如何搜索这个播放器的源文件而且对flash编程完全没有了解，如何用html标签控制flash行为只能暂时停下来了，有没有人了解一些的可以交流一下。<br />
+dz官方论坛里应该这方面资料很多的，之前一直没太注意呢，http://www.discuz.net/viewthread.php?tid=423476这里又提供其他的播放器，如果有机会试试或许也有其他收获也说不定。不过要是把现有的播放器搞定那是最好不过了。</p>

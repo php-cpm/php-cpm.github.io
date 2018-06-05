@@ -1,0 +1,28 @@
+---
+layout: post
+status: publish
+published: true
+title: 'mac下安装php-memcached提示configure: error: memcache support  requires ZLIB. Use
+  --with-zlib-dir=<DIR> to specify prefix where ZLIB解决办法'
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1032
+wordpress_url: http://oadoc360.com/?p=1032
+date: '2016-01-01 22:56:07 +0800'
+date_gmt: '2016-01-01 14:56:07 +0800'
+categories:
+- MACOS
+tags: []
+comments: []
+---
+<p>&nbsp;</p>
+<p>[code language="plain"]checking for the location of zlib... configure: error: memcache supportrequires ZLIB. Use --with-zlib-dir=<dir> to specify prefix where ZLIB [/code]</dir>[code language="plain"]<br />
+brew install zlib<br />
+brew link --force zlib[/code]
+<p>默认用brew 安装zlib提示有可能会跟系统的zlib库冲突，没有吧zlib库link到系统目录<br>重新安装xcode，然并卵</p>
+<p>[code language="plain"]xcode-select --installbrew install php{xx}-memcache[/code]</p>

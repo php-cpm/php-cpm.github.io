@@ -1,0 +1,60 @@
+---
+layout: post
+status: publish
+published: true
+title: IE下面向ActiveX对象的Javascript编程内存泄露问题
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 655
+wordpress_url: http://oadoc360.com/blog/?p=655
+date: '2013-03-16 09:51:52 +0800'
+date_gmt: '2013-03-16 01:51:52 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<div>
+<p>在<span style="font-family: 'Times New Roman';">IE&nbsp;ActiveX</span><span style="font-family: 宋体;">对象开发时的注意事项：</span></p>
+<p>今天翻犀牛书第五版，在<span style="font-family: 'Times New Roman';">154</span><span style="font-family: 宋体;">页专门提到了</span><span style="font-family: 'Times New Roman';">IE</span><span style="font-family: 宋体;">下内存泄露的问题。提供的参考网址已经无法访问了，地址如下：</span></p>
+<p><a href="http://msdn.microsoft.com/zh-cn/library/bb250448(v=VS.85).aspx">http://msdn.microsoft.com/zh-cn/library/bb250448(v=VS.85).aspx</a></p>
+<p>&nbsp;</p>
+<p>循环引用Dom<span style="font-family: 宋体;">对象时就会造成此问题，</span>参考例子：</p>
+<blockquote><p><html></p>
+<p><head></p>
+<p><script&nbsp;language="JScript"></p>
+<p>&nbsp;</p>
+<p>var&nbsp;myGlobalObject;</p>
+<p>&nbsp;</p>
+<p>function&nbsp;SetupLeak()</p>
+<p>{</p>
+<p>//&nbsp;首先把页面元素赋值给变量</p>
+<p>myGlobalObject&nbsp;=</p>
+<p>document.getElementById("LeakedDiv");</p>
+<p>&nbsp;</p>
+<p>//&nbsp;接着把变量赋值给页面元素的属性，这样形成一个循环引用</p>
+<p>document.getElementById("LeakedDiv").expandoProperty&nbsp;=</p>
+<p>myGlobalObject;</p>
+<p>}</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>function&nbsp;BreakLeak()</p>
+<p>{</p>
+<p>document.getElementById("LeakedDiv").expandoProperty&nbsp;=</p>
+<p>null;</p>
+<p>}</p>
+<p></script></p>
+<p></head></p>
+<p>&nbsp;</p>
+<p><body&nbsp;onload="SetupLeak()"&nbsp;onunload="BreakLeak()"></p>
+<div&nbsp;id="LeakedDiv"></div>
+<p></body></p>
+<p></html></p>
+<p>&nbsp;</p></blockquote>
+<p>近年来越来越多人采用JS<span style="font-family: 宋体;">的面相对象开发，这种情况下不太严谨的码农极易犯此错误。所以如果你开发的应用中涉及到</span><span style="font-family: 'Times New Roman';">ActiveX</span><span style="font-family: 宋体;">的话一定要小心的处理。</span></p>
+</div>

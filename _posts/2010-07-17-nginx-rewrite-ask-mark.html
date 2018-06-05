@@ -1,0 +1,32 @@
+---
+layout: post
+status: publish
+published: true
+title: 正则表达式的问号|nginx rewrite 匹配问号（？）
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 407
+wordpress_url: http://zouyi.rayyn.net/?p=407
+date: '2010-07-17 17:54:17 +0800'
+date_gmt: '2010-07-17 09:54:17 +0800'
+categories:
+- linux应用
+- WEB技术
+tags: []
+comments: []
+---
+<p>今天再给bbpcn.net添加rewrite功能时遇到一个难题。</p>
+<p>要把这个地址http://bbpcn.net/bb-admin/admin-base.php？page=4&amp;plugin=mass_edit</p>
+<p>rewrite成这个http://bbpcn.net/bb-admin/admin-base.php/page/4?plugin=mass_edit</p>
+<p>考虑到通用性我的语句为</p>
+<p><code>rewrite ^/bb-admin/admin-base.php/page/([0-9]+)</code>&amp;plugin=(.*)<code>$  /bb-admin/admin-base.php?page=</code>4&amp;plugin=<code>$2 last;</code></p>
+<p>但是reload nginx后一直在404，于是猜测是正则问题。</p>
+<p>之前写的rewrite规则都比较简单，这次多了些特殊符号，&ldquo;.&rdquo;、&ldquo;?&rdquo;。按照我那破破的C语言水平，我试着添加转义符号&ldquo;&rdquo;，不过依然不起作用，开始在Google上以多个关键字搜索，终于让我找到方法了。</p>
+<p>这个问题apache和nginx可能都存在。</p>
+<p>只说解决方法吧。点号可以用反斜杠转义，问号后面的字符串用自带变量处理。最终我的rewrite规则改写为如下即可。</p>
+<p><code>rewrite ^/bb-admin/admin-base.php/page/([0-9]+)$  /bb-admin/admin-base.php?page=$1&amp;query_string last;</code></p>

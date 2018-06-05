@@ -1,0 +1,44 @@
+---
+layout: post
+status: publish
+published: true
+title: 自己动手翻译 WordPress/bbPress 插件【译文】
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 387
+wordpress_url: http://zouyi.rayyn.net/?p=387
+date: '2010-06-27 18:34:32 +0800'
+date_gmt: '2010-06-27 10:34:32 +0800'
+categories:
+- 未分类
+tags:
+- PHP
+comments: []
+---
+<div id="content-391">
+<p>本文是一个指导大家将WordPress 或 bbPress插件（一般这些插件都带有一个POT文件）翻译成他的母语的教程。文章不长，图文并茂希望大家看完。下面我以bbPress的插件 <a title="After the Deadline for bbPress" href="http://bbpress.org/plugins/topic/after-the-deadline/">After  the  Deadline</a> 为例来演示如何用&nbsp; <a title="PoEdit" href="http://www.poedit.net/">Poedit</a> 这款软件来翻译。我之所以选择Poedit是因为它界面简单而容易上手。</p>
+<p>步骤如下:</p>
+<ol>
+<li><a href="http://www.poedit.net/download.php">下载并安装 Poedit.</a></li>
+<li>运行程序， 打开菜单栏的文件 -> 从 POT 文件建立新的消息目录文档 <em>File -> New Catalog from POT file</em><br />
+<a href="http://gaut.am/wp-content/uploads/2010/01/open_pot.png"><img title="New Catalog from POT  file..." src="http://gaut.am/wp-content/uploads/2010/01/open_pot.png" alt="" width="272" height="249" /></a></li>
+<li>选择 POT 文件. 它大概在插件的根目录、<em>languages</em> 或 <em>translations</em> 目录下。<br />
+<a href="http://gaut.am/wp-content/uploads/2010/01/select-pot.png"><img title="Select the POT file" src="http://gaut.am/wp-content/uploads/2010/01/select-pot.png" alt="" width="570" height="434" /></a></li>
+<li>设置如图所示对话框。<br />
+<a href="http://gaut.am/wp-content/uploads/2010/01/project-info.png"><img title="Project information" src="http://gaut.am/wp-content/uploads/2010/01/project-info.png" alt="" width="392" height="338" /></a></li>
+<li>还是那个对话框，切换到路径选项卡。这是你存在本地硬盘上的插件的位置。我这个例子里是 <em>F:after-the-deadline</em>。</li>
+<li><a href="http://gaut.am/wp-content/uploads/2010/01/path-info.png"><img title="Path Info" src="http://gaut.am/wp-content/uploads/2010/01/path-info.png" alt="" width="392" height="338" /></a></li>
+<li>下面就是写你的翻译内容了. 下面的途中我把它翻译成了 <em>hindi</em> 语。<a href="http://gaut.am/wp-content/uploads/2010/01/translated-hi.png"><img title="Translate the Strings" src="http://gaut.am/wp-content/uploads/2010/01/translated-hi.png" alt="" width="617" height="581" /></a><strong>注意</strong>: 多多注意 php 的属性值 例如 <em>%s</em>, <em>%1$s</em> 等。保证在翻译这些字符串时是 <em>%s</em> 而且不包含$ 标记就不要改变顺序! 参考上面截图. 注意<em>%s</em> 在两个字符串中都包含.<strong><br />
+</strong></li>
+<li>将PO文件存在POT储存的同一个目录下。命名规则为<em> 语言代码_国家代码 languagecode_COUNTRYCODE</em>。例如 <em>hi_IN </em>(Hindi 是一种语言 and India 是说这种语言的国家).<a href="http://gaut.am/wp-content/uploads/2010/01/save-po.png"><img title="Save the PO file" src="http://gaut.am/wp-content/uploads/2010/01/save-po.png" alt="" width="570" height="434" /></a></li>
+<li>同样要创建一个 <em>.mo</em> 文件。would also have been generated. 现在看看我的POT的文件名是 <em>after-the-deadline</em> 而 我的 PO 文件名是<em>hi_IN</em>. 那么就把 <em>.mo</em> 文件重命名为 <em>POT-PO.mo</em>格式。 本例中文件名结果就是 <em>after-the-deadline-hi_IN.mo。如果你想的话，你当然也可以把 </em>PO 文件也改成这个名字, 但这不是必须的.</li>
+</ol>
+<p>成功翻译了插件吧, 小小庆祝一下! 如果你翻译了我任何一个插件, 恳请 <a title="Contact Gautam" href="http://gaut.am/contact/">联系我</a> 我会把它加入我插件的语言文件中。欢迎留言提问！</p>
+</div>
+<p>原文：</p>
+<p><a href="http://gaut.am/translating-wordpress-or-bbpress-plugins/">Translating WordPress/bbPress Plugins | Gautam's Blog</a>.</p>

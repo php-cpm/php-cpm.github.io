@@ -1,0 +1,27 @@
+---
+layout: post
+status: publish
+published: true
+title: wordpress gravatar头像不显示的解决方法
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 931
+wordpress_url: http://oadoc360.com/?p=931
+date: '2015-04-13 14:52:28 +0800'
+date_gmt: '2015-04-13 06:52:28 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>function mytheme_get_avatar($avatar) {<br />
+$avatar = str_replace(array("http://www.gravatar.com","0.gravatar.com","1.gravatar.com","2.gravatar.com"),"gravatar.duoshuo.com",$avatar);<br />
+return $avatar;<br />
+}<br />
+add_filter( "get_avatar", "mytheme_get_avatar", 10, 3 );</p>
+<p>放到模板函数 functions.php</p>

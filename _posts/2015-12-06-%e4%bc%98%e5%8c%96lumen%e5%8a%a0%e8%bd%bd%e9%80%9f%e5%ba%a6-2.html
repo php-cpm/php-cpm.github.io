@@ -1,0 +1,29 @@
+---
+layout: post
+status: publish
+published: true
+title: 优化lumen加载速度
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 1019
+wordpress_url: http://oadoc360.com/?p=1019
+date: '2015-12-06 15:04:48 +0800'
+date_gmt: '2015-12-06 07:04:48 +0800'
+categories:
+- lumen
+tags: []
+comments: []
+---
+<p>通过xdebug+QCachegrind分析lumen一个项目里的某一接口</p>
+<p>分析每一个时间较长或者调用次数较多的函数<br>先看了下route这块用到的是nikic/fast-route 其中按照官方文档介绍，动态路由比静态路由慢，所以项目路由设计时我们添加的都是静态路由，而项目自带一个欢迎页面的动态路由。</p>
+<p>优化方案，干掉动态路由，静态路由函数优化：找到<br>vendor/nikic/fast-route/src/DataGenerator/RegexBasedAbstract.php<br>的addStaticRoute方法<br>其中为了验证添加的路由是否有效，每一条记录都做了循环校验，这里其实可以在开发环境中启用，线上干掉来提速。<br>注释代码<br>/*<br>if (isset($this->methodToRegexToRoutesMap[$httpMethod])) {</p>
+<p>foreach ($this->methodToRegexToRoutesMap[$httpMethod] as $route) {<br>                if ($route->matches($routeStr)) {<br>                    throw new BadRouteException(sprintf(<br>                        'Static route "%s" is shadowed by previously defined variable route "%s" for method "%s"',<br>                        $routeStr, $route->regex, $httpMethod<br>                    ));<br>                }<br>            }<br>        }</p>
+<p>*/</p>
+<p>整个请求最重的就是mysql数据库操作了，其中prepare是pdo中做安全验证的必要组件，参考php手册</p>
+<p><a href="http://www.php.net/manual/de/pdo.prepare.php">http://www.php.net/manual/de/pdo.prepare.php</a></p>
+<p><br>http://stackoverflow.com/questions/1176352/pdo-prepared-inserts-multiple-rows-in-single-query<br>有说php5.6中array_push 比array_merge快很多</p>

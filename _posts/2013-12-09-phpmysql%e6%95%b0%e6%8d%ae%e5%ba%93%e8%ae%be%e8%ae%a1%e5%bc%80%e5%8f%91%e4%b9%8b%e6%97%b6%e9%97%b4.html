@@ -1,0 +1,30 @@
+---
+layout: post
+status: publish
+published: true
+title: PHP+mysql数据库设计开发之时间
+author:
+  display_name: zouyi
+  login: zouyi
+  email: zoutommy@gmail.com
+  url: ''
+author_login: zouyi
+author_email: zoutommy@gmail.com
+wordpress_id: 812
+wordpress_url: http://oadoc360.com/?p=812
+date: '2013-12-09 17:59:49 +0800'
+date_gmt: '2013-12-09 09:59:49 +0800'
+categories:
+- 未分类
+tags: []
+comments: []
+---
+<p>日期时间（本文简称时间）是开发中用于存储数据与时间相关的标示，在一般小数据量的业务系统中有一定的唯一性，比如记录用户登录时间，同一个用户正常使用时极难出现同一秒出现两条登录记录的情况。</p>
+<p>2013-12-04 11:30:58</p>
+<p>这是一个大家常见的时间格式，很容易理解，空格前后分别是该时间的年月日和时分秒，年月日分别用-短横线连接，时分秒分别用:冒号连接。</p>
+<p>1386518400</p>
+<p>这是一个大家不常见的UNIX时间戳格式，它表示了从1970年1月1日（UTC/GMT的午夜）开始所经过的秒数，不考虑闰秒。</p>
+<p>基于小学数学的知识我们知道，1分钟=60秒，1小时=60分钟=3600秒，1天=24小时=24*3600秒，1周= 7天=7*24*3600秒</p>
+<p>可见我们如果以数字形式的UNIX时间戳格式存储时间，我们可以轻易的拿来计算。</p>
+<p>它唯一的不方便就是人没法一看就和时间的时间对应上</p>
+<p>&nbsp;</p>
