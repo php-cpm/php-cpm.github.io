@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: go项目部署方案
+title: Golang 项目部署方案总结
 author:
   display_name: zouyi
   login: zouyi
@@ -15,9 +15,7 @@ wordpress_url: http://oadoc360.com/?p=1093
 date: '2018-04-17 16:54:05 +0800'
 date_gmt: '2018-04-17 08:54:05 +0800'
 category: Golang
-categories:
-- 未分类
-tags: []
+tags: [go, deploy]
 comments:
 - id: 479
   author: liuyi
@@ -27,14 +25,14 @@ comments:
   date_gmt: '2018-05-23 14:08:25 +0800'
   content: 有淘宝广告，班长一直更新呢！不错，坚持着自己的兴趣爱好！向你学习！
 ---
-<p>常用了go web/api 项目部署方案有4种<br />
+<p>常用的 Golang web/api 项目部署方案有4种<br />
 1. nohup xxx &<br />
 2. supervisord<br />
-3. nginx<br />
-4. apache<br />
-https://beego.me/docs/deploy/<br />
-可以参考beego的文档</p>
-<p>然而我们可以换一种思路，以软件的形式部署<br />
+3. nginx proxy<br />
+4. apache proxy<br />
+可以参考beego的文档 https://beego.me/docs/deploy/<br />
+</p>
+<p>然而我们可以换一种思路，以软件的形式部署，流程如下：<br />
 1. Go打包为特定版本的rpm，版本号自增,rpm包包含打包的可执行程序、配置、service脚本<br />
 2. 推到内部yum仓库，yum仓库索引更新<br />
 3. 目标机执行 yum update xxx<br />
