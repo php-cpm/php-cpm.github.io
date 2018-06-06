@@ -22,6 +22,8 @@
   {% capture title %}{{ __.title.category }} | {{ site.title }}{% endcapture %}
 {% when 'tag' %}
   {% capture title %}{{ __.title.tag }} | {{ site.title }}{% endcapture %}
+{% when 'about' %}
+  {% capture title %}{{ __.title.about }} | {{ site.title }}{% endcapture %}
 {% when 'schedule' %}
   {% capture title %}{{ __.title.schedule }} | {{ site.title }}{% endcapture %}
 {% endcase %}
