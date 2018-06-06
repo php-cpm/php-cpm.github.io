@@ -24,7 +24,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://me.oadoc360.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username:  
 github_username: php-cpm 
-permalink: date
+permalink: date 
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -37,13 +37,6 @@ permalink: date
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-
-tag_page_layout: tag_page
-tag_page_dir: tag
-tag_permalink_style: pretty
-tag_page_data:
-  sitemap: false
-ignored_tags: [tags,to,ignore]
 
 paginate: 30
 
